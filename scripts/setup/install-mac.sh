@@ -44,4 +44,4 @@ brew update
 check_brew_cask 'docker'
 
 # Check if software exists and install (from brew)
-check_brew 'packer jq lazydocker'
+check_brew 'packer jq'
