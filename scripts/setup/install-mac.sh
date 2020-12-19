@@ -16,6 +16,12 @@ source "${LIBS_DIR}/liblog.sh"
 # Load mac fnc used here.
 source "${CURRENT_DIR}/fnc/mac.sh"
 
+# Prevent script running on different than mac terminals.
+if [[ "$OSTYPE" != "darwin"* ]]; then
+    echo "That script is working only on macos."
+    exit 1;
+fi
+
 warn "Verifying that everything needed is installed on macos."
 
 # Check if scripts is running as root.
