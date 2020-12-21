@@ -1,0 +1,17 @@
+{
+    "AYAQA_PROJECT_BUILD_STAGE": "development",
+    "AYAQA_PROJECT_DEBUG": "true",
+
+    "AYAQA_APP_ENV": "development",
+    "AYAQA_APP_DEBUG": "true",
+
+    "AYAQA_INFRA_DIR": "/opt/ayaqa",
+    "AYAQA_INFRA_SCRIPTS_DIR": "/opt/ayaqa/scripts",
+    "AYAQA_INFRA_LIBS_DIR": "/opt/ayaqa/libs",
+
+    "AYAQA_CONFIG_DIR": "/opt/ayaqa/confs",
+    "AYAQA_BOOT_CONFIG_DIR": "/opt/ayaqa/boot_confs",
+
+    "AYAQA_IMAGE_BOOT_SETUP_FILE_PATH": "/opt/ayaqa/boot_confs/setup.sh",
+    "AYAQA_IMAGE_ENTRYPOINT_FILE_PATH": "/opt/ayaqa/docker-entrypoint.sh"
+}

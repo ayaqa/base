@@ -1,0 +1,4 @@
+# Can be used to override locally some of vars provided to build process or provisioning
+# It should be valid json... override file should have same structure as config.json
+{
+}

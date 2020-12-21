@@ -1,0 +1,6 @@
+{
+    "AYAQA_PROJECT_BI": "debian",
+    "AYAQA_PROJECT_BIT": "buster-slim",
+    "AYAQA_PROJECT_NAME": "ayaqa_base",
+    "AYAQA_PROJECT_TAG": "latest"
+}

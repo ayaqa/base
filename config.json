@@ -1,0 +1,10 @@
+{
+    "AYAQA_BUILD_VARS": {
+        "base": {},
+        "core_dev": {}
+    },
+    "AYAQA_PROVISION_VARS": {
+        "base": {},
+        "core_dev": {}
+    }
+}

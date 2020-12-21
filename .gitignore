@@ -1,2 +1,7 @@
 .vscode
 .DS_Store
+
+config-local.json
+config-generated.json
+
+build_vars_dynamic.json
