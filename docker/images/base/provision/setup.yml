@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - "./provision_vars.json"
+    - "./provision_vars_dynamic.json"
+  vars:
+    timezone: "{{ AYAQA_CONTAINER_TZ }}"
+  
+  tasks:
+    - name: "DEBUG: Vars"
+      debug:
+        msg:
+          - "----------------- Vars ---------------------"
+          - "Name: {{ AYAQA_PROJECT_NAME }}"
+          - "Tag: {{ AYAQA_PROJECT_TAG }}"
+          - "Build Stage: {{ AYAQA_PROJECT_BUILD_STAGE }}"
+          - "Build Debug: {{ AYAQA_PROJECT_DEBUG }}"
+          - "App Stage: {{ AYAQA_APP_ENV }}"
+          - "App Debug: {{ AYAQA_APP_DEBUG }}"
+          - "----------------- End ---------------------"
+      tags:
+        - debug_info

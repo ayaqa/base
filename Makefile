@@ -23,10 +23,12 @@ LOCAL_REGISTRY="localhost:5001"
 BASE_DIR=.
 DOCKER_BASE_DIR=docker
 IMAGES_BASE_DIR=${DOCKER_BASE_DIR}/images
-SHARED_LIBS_DIR=${DOCKER_BASE_DIR}/sharedfs/libs
+SHARED_LIBS_DIR=${DOCKER_BASE_DIR}/sharedfs/libs/
 COMMON_CONFIG_DIR=${DOCKER_BASE_DIR}/configs
 
 IMAGE_BUILD_ROOT_DIR=${IMAGES_BASE_DIR}/${IMAGE_NAME}
+
+PROVISION_CONFIG_DIR=${IMAGE_BUILD_ROOT_DIR}/provision
 
 # Files
 #######
@@ -37,6 +39,7 @@ CONFIG_JSON_GENERATED_FILE_PATH=${BASE_DIR}/config-generated.json
 # Common paths to files
 PACKER_VARS_FILE_PATH=${COMMON_CONFIG_DIR}/packer-only-vars.json
 PROVISION_VARS_FILE_PATH=${COMMON_CONFIG_DIR}/provision-only-vars.json
+PROVISION_VARS_DYNAMIC_FILE=${PROVISION_CONFIG_DIR}/provision_vars_dynamic.json
 SHARED_VARS_FILE_PATH=${COMMON_CONFIG_DIR}/shared-vars.json
 
 # IMAGE_NAME based paths to build & vars
@@ -52,7 +55,8 @@ PROVISION_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_PROVISION_VARS.${IMAGE_NAME}" 
 #########
 help: display_help
 build_local: pre_build_local __build_local clear_after_build_local
-pre_build_local: compile_config_file
+pre_build_local: compile_configs
+compile_configs: continue_if_image_dir_is_fine compile_config_file compile_packer_dynamic_env compile_provision_dynamic_env
 
 # Helpers
 #########
@@ -96,6 +100,11 @@ compile_packer_dynamic_env:
 	@echo "${INFO_STRING} Generate dynamic env config for packer"
 	@if [[ "${PACKER_VARS}" == "null" ]]; then echo '{}' > "${PACKER_BUILD_VARS_DYNAMIC_FILE}"; echo "${WARN_STRING} ${IMAGE_NAME} - No dynamic packer variables."; fi;
 	@if [[ "${PACKER_VARS}" != "null" ]]; then jq -s '.[]' <<< "${PACKER_VARS}" > "${PACKER_BUILD_VARS_DYNAMIC_FILE}"; echo "${OK_STRING} ${IMAGE_NAME} - Dynamic packer vars file was generated."; fi;
+
+compile_provision_dynamic_env:
+	@echo "${INFO_STRING} Generate dynamic env config for provision"
+	@if [[ "${PROVISION_VARS}" == "null" ]]; then echo '{}' > "${PROVISION_VARS_DYNAMIC_FILE}"; echo "${WARN_STRING} ${IMAGE_NAME} - No dynamic provision variables."; fi;
+	@if [[ "${PROVISION_VARS}" != "null" ]]; then jq -s '.[]' <<< "${PROVISION_VARS}" > "${PROVISION_VARS_DYNAMIC_FILE}"; echo "${OK_STRING} ${IMAGE_NAME} - Dynamic provision variable file was built."; fi;
 
 validate_packer_build: continue_if_image_dir_is_fine compile_packer_dynamic_env
 	@echo "${INFO_STRING} Packer validate build manifest for IMAGE_NAME=${YELLOW_COLOR}${IMAGE_NAME}${RESET_COLOR}"

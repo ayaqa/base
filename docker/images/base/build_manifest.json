@@ -15,6 +15,7 @@
                 "ENV AYAQA_APP_DEBUG {{ user `AYAQA_APP_DEBUG` }}",
 
                 "ENV AYAQA_INFRA_DIR {{ user `AYAQA_INFRA_DIR` }}",
+                "ENV AYAQA_INFRA_LIBS_DIR {{ user `AYAQA_INFRA_LIBS_DIR` }}",
 
                 "ENV AYAQA_CONFIG_DIR {{ user `AYAQA_CONFIG_DIR` }}",
                 "ENV AYAQA_BOOT_CONFIG_DIR {{ user `AYAQA_BOOT_CONFIG_DIR` }}",
@@ -22,6 +23,56 @@
 
                 "VOLUME {{ user `AYAQA_BOOT_CONFIG_DIR` }}",
                 "ENTRYPOINT {{ user `AYAQA_IMAGE_ENTRYPOINT_FILE_PATH` }}"
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "DEBIAN_FRONTEND='noninteractive'",
+                "apt-get -y update",
+                "apt-get install -y gnupg2",
+                "echo 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main' >> /etc/apt/sources.list",
+                "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367",
+                "apt-get -y update",
+                "apt-get -y install ansible"
+            ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "mkdir --parents {{ user `AYAQA_INFRA_DIR` }}",
+                "mkdir --parents {{ user `AYAQA_INFRA_SCRIPTS_DIR` }}",
+                "mkdir --parents {{ user `AYAQA_INFRA_PROVISION_DIR` }}",
+                "mkdir --parents {{ user `AYAQA_INFRA_LIBS_DIR` }}",
+                "mkdir --parents {{ user `AYAQA_INFRA_PROVISION_SHARED_DIR` }}"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "{{ user `SHARED_LIBS_DIR` }}",
+            "destination": "{{ user `AYAQA_INFRA_LIBS_DIR` }}"
+        },
+        {
+            "type": "file",
+            "source": "{{ user `BUILD_DIR`}}/provision/",
+            "destination": "{{ user `AYAQA_PROVISION_IMAGE_DIR` }}"
+        },
+        {
+            "type": "file",
+            "source": "{{user `BUILD_DIR` }}/scripts/",
+            "destination": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "chmod 700 {{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}",
+                "{{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}"
+            ],
+            "environment_vars": [
+                "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}",
+                "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}"
             ]
         }
     ],

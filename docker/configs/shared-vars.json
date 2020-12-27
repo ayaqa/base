@@ -7,7 +7,9 @@
 
     "AYAQA_INFRA_DIR": "/opt/ayaqa",
     "AYAQA_INFRA_SCRIPTS_DIR": "/opt/ayaqa/scripts",
+    "AYAQA_INFRA_PROVISION_DIR": "/opt/ayaqa/provision",
     "AYAQA_INFRA_LIBS_DIR": "/opt/ayaqa/libs",
+    "AYAQA_INFRA_PROVISION_SHARED_DIR": "/opt/ayaqa/provision/shared",
 
     "AYAQA_CONFIG_DIR": "/opt/ayaqa/confs",
     "AYAQA_BOOT_CONFIG_DIR": "/opt/ayaqa/boot_confs",

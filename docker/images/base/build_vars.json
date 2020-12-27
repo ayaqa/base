@@ -2,5 +2,9 @@
     "AYAQA_PROJECT_BI": "debian",
     "AYAQA_PROJECT_BIT": "buster-slim",
     "AYAQA_PROJECT_NAME": "ayaqa_base",
-    "AYAQA_PROJECT_TAG": "latest"
+    "AYAQA_PROJECT_TAG": "latest",
+    "AYAQA_PROJECT_DIR": "base",
+
+    "AYAQA_PROVISION_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/provision-base.sh",
+    "AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/entrypoint-base.sh"
 }

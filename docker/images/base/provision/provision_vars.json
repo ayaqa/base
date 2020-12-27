@@ -1,0 +1,6 @@
+{
+    "AYAQA_PROJECT_NAME": "ayaqa_base",
+    "AYAQA_PROJECT_TAG": "latest",
+
+    "AYAQA_CONTAINER_TZ": "Etc/UTC"
+}
