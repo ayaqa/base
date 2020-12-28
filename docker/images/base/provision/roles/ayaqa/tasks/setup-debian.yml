@@ -1,0 +1,10 @@
+---
+- name: install packages - apt
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+    update_cache: true
+  loop: "{{ list_of_packages }}"
+  tags: 
+    - install-pkg-apt

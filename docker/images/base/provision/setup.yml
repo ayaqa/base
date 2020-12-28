@@ -6,7 +6,19 @@
     - "./provision_vars_dynamic.json"
   vars:
     timezone: "{{ AYAQA_CONTAINER_TZ }}"
-  
+    list_of_packages: [
+      "curl",
+      "nano",
+      "locate",
+      "git",
+      "locales",
+      "iputils-ping",
+      "htop",
+      "zip",
+      "unzip",
+      "wget"
+    ]
+
   tasks:
     - name: "DEBUG: Vars"
       debug:
@@ -18,6 +30,12 @@
           - "Build Debug: {{ AYAQA_PROJECT_DEBUG }}"
           - "App Stage: {{ AYAQA_APP_ENV }}"
           - "App Debug: {{ AYAQA_APP_DEBUG }}"
+          - "----------------- ### ---------------------"
+          - "Timezone: {{ timezone }}"
+          - "Apt packages: {{ list_of_packages | join(', ') }}"
           - "----------------- End ---------------------"
       tags:
         - debug_info
+
+  roles:
+    - ayaqa

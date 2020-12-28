@@ -10,3 +10,4 @@ echo 'localhost' > /etc/ansible/hosts
 
 # First will run it with debug_info to have all variables before run real provision
 ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/setup.yml
+ansible-playbook --tags "provision" ${AYAQA_PROVISION_IMAGE_DIR}/setup.yml

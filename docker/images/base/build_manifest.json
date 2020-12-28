@@ -71,7 +71,6 @@
                 "{{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}"
             ],
             "environment_vars": [
-                "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}",
                 "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}"
             ]
         }
