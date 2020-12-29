@@ -1,0 +1,11 @@
+---
+- name: "Ensure entry point is configured properly for current image."
+  include_tasks:
+    file: entrypoint.yml
+    apply:
+      tags: 
+        - provision
+        - entrypoint
+  tags:
+    - entrypoint
+    - provision

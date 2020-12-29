@@ -23,7 +23,7 @@ LOCAL_REGISTRY="localhost:5001"
 BASE_DIR=.
 DOCKER_BASE_DIR=docker
 IMAGES_BASE_DIR=${DOCKER_BASE_DIR}/images
-SHARED_LIBS_DIR=${DOCKER_BASE_DIR}/sharedfs/libs/
+SHARED_FS_DIR=${DOCKER_BASE_DIR}/sharedfs
 COMMON_CONFIG_DIR=${DOCKER_BASE_DIR}/configs
 
 IMAGE_BUILD_ROOT_DIR=${IMAGES_BASE_DIR}/${IMAGE_NAME}
@@ -112,7 +112,7 @@ validate_packer_build: continue_if_image_dir_is_fine compile_packer_dynamic_env
 			-var-file=${PACKER_BUILD_VARS_PATH} \
 			-var-file=${PACKER_BUILD_VARS_DYNAMIC_FILE} \
 			-var BUILD_DIR="${IMAGE_BUILD_ROOT_DIR}" \
-			-var SHARED_LIBS_DIR="${SHARED_LIBS_DIR}" \
+			-var SHARED_FS_DIR="${SHARED_FS_DIR}" \
 		$$(if [[ "$(BUILD_TAG)" != "NULL" ]]; then echo "-var AYAQA_PROJECT_NAME=${LOCAL_REGISTRY}/$(IMAGE_NAME)"; echo "-var AYAQA_PROJECT_TAG=$(BUILD_TAG)"; fi;) \
 	    $$(if [[ "$(BUILD_ENABLE_DEBUG)" == "true" ]]; then echo "-var AYAQA_PROJECT_DEBUG=\"true\""; fi;) \
 	    "${PACKER_BUILD_MANIFEST_PATH}" || exit 1;
@@ -123,7 +123,7 @@ __build_local: validate_packer_build
 			-var-file=${PACKER_BUILD_VARS_PATH} \
 			-var-file=${PACKER_BUILD_VARS_DYNAMIC_FILE} \
 			-var BUILD_DIR="${IMAGE_BUILD_ROOT_DIR}" \
-			-var SHARED_LIBS_DIR="${SHARED_LIBS_DIR}" \
+			-var SHARED_FS_DIR="${SHARED_FS_DIR}" \
 		$$(if [[ "$(BUILD_TAG)" != "NULL" ]]; then echo "-var AYAQA_PROJECT_NAME=${LOCAL_REGISTRY}/$(IMAGE_NAME)"; echo "-var AYAQA_PROJECT_TAG=$(BUILD_TAG)"; fi;) \
 	    $$(if [[ "$(BUILD_ENABLE_DEBUG)" == "true" ]]; then echo "-var AYAQA_PROJECT_DEBUG=\"true\""; fi;) \
 			-timestamp-ui \

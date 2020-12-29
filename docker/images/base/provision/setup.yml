@@ -18,6 +18,8 @@
       "unzip",
       "wget"
     ]
+    image_entry_file_path: "{{ AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH }}"
+    default_entry_file_path: "{{ AYAQA_IMAGE_ENTRYPOINT_FILE_PATH }}"
 
   tasks:
     - name: "DEBUG: Vars"
@@ -33,9 +35,12 @@
           - "----------------- ### ---------------------"
           - "Timezone: {{ timezone }}"
           - "Apt packages: {{ list_of_packages | join(', ') }}"
+          - "Default entry file path: {{ default_entry_file_path }}"
+          - "Current image entry path: {{ image_entry_file_path }}"
           - "----------------- End ---------------------"
       tags:
         - debug_info
 
   roles:
     - ayaqa
+    - ayaqa-configure

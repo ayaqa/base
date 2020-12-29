@@ -2,5 +2,8 @@
     "AYAQA_PROJECT_NAME": "ayaqa_base",
     "AYAQA_PROJECT_TAG": "latest",
 
-    "AYAQA_CONTAINER_TZ": "Etc/UTC"
+    "AYAQA_CONTAINER_TZ": "Etc/UTC",
+
+    "AYAQA_PROVISION_BASH_SCRIPT_PATH": "{{ AYAQA_INFRA_SCRIPTS_DIR }}/provision-base.sh",
+    "AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH": "{{ AYAQA_INFRA_SCRIPTS_DIR }}/entrypoint-base.sh"
 }

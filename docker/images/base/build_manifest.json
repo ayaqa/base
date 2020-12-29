@@ -51,8 +51,13 @@
         },
         {
             "type": "file",
-            "source": "{{ user `SHARED_LIBS_DIR` }}",
+            "source": "{{ user `SHARED_FS_DIR` }}/libs/",
             "destination": "{{ user `AYAQA_INFRA_LIBS_DIR` }}"
+        },
+        {
+            "type": "file",
+            "source": "{{ user `SHARED_FS_DIR` }}/ansible/",
+            "destination": "{{ user `AYAQA_INFRA_PROVISION_SHARED_DIR` }}"
         },
         {
             "type": "file",
@@ -71,7 +76,8 @@
                 "{{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}"
             ],
             "environment_vars": [
-                "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}"
+                "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}",
+                "ANSIBLE_ROLES={{ user `AYAQA_INFRA_PROVISION_SHARED_DIR` }}/roles"
             ]
         }
     ],
