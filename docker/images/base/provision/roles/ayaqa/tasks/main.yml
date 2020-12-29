@@ -1,5 +1,5 @@
 ---
-- name: "Include setup file for: {{ ansible_distribution }}"
+- name: "Include setup tasks for: {{ ansible_distribution }}"
   include_tasks: 
     file: "setup-{{ ansible_distribution | lower }}.yml"
     apply:
@@ -8,9 +8,18 @@
   tags: 
     - provision
 
-- name: "Configure {{ ansible_distribution }}"
+- name: "Include configure tasks for: {{ ansible_distribution }}"
   include_tasks: 
     file: "configure-{{ ansible_distribution | lower }}.yml"
+    apply:
+      tags: 
+        - provision
+  tags: 
+    - provision
+
+- name: "Include fixes for external roles"
+  include_tasks: 
+    file: "fixes-external.yml"
     apply:
       tags: 
         - provision

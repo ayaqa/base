@@ -5,6 +5,7 @@
     - "./provision_vars.json"
     - "./provision_vars_dynamic.json"
   vars:
+    ansible_python_interpreter: /usr/bin/python
     timezone: "{{ AYAQA_CONTAINER_TZ }}"
     list_of_packages: [
       "curl",
@@ -22,7 +23,7 @@
     default_entry_file_path: "{{ AYAQA_IMAGE_ENTRYPOINT_FILE_PATH }}"
 
   tasks:
-    - name: "DEBUG: Vars"
+    - name: "DEBUG: Dump variables."
       debug:
         msg:
           - "----------------- Vars ---------------------"

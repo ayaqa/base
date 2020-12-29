@@ -1,10 +1,13 @@
 {
     "AYAQA_BUILD_VARS": {
-        "base": {},
-        "core_dev": {}
+        "base": {
+            "AYAQA_PROJECT_NAME": "ayaqa_base",
+            "AYAQA_PROJECT_TAG": "latest"
+        }
     },
     "AYAQA_PROVISION_VARS": {
-        "base": {},
-        "core_dev": {}
+        "base": {
+            "AYAQA_SUPERVISOR_PASSWORD": "123"
+        }
     }
 }

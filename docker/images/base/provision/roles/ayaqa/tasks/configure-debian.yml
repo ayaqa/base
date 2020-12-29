@@ -1,5 +1,5 @@
 ---
-- name: "Set container tz to: {{ timezone }}"
+- name: "Ensure container tz is {{ timezone }}"
   timezone:
     name: "{{ timezone }}"
   tags: 

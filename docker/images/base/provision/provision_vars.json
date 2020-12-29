@@ -3,6 +3,7 @@
     "AYAQA_PROJECT_TAG": "latest",
 
     "AYAQA_CONTAINER_TZ": "Etc/UTC",
+    "AYAQA_SSH_PORT": "22122",
 
     "AYAQA_PROVISION_BASH_SCRIPT_PATH": "{{ AYAQA_INFRA_SCRIPTS_DIR }}/provision-base.sh",
     "AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH": "{{ AYAQA_INFRA_SCRIPTS_DIR }}/entrypoint-base.sh"
