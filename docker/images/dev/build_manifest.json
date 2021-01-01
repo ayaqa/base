@@ -1,0 +1,43 @@
+{
+    "builders": [
+        {
+            "type": "docker",
+            "image": "{{ user `AYAQA_PROJECT_BI` }}:{{ user `AYAQA_PROJECT_BIT` }}",
+            "commit": true,
+            "pull": false,
+            "changes": [
+                "USER root",
+                "ENV DEBIAN_FRONTEND noninteractive",
+
+                "VOLUME {{ user `AYAQA_APP_ROOT_DIR` }}",
+                "EXPOSE {{ user `AYAQA_PHPFPM_PORT` }} {{ user `AYAQA_XDEBUG_PORT` }} {{ user `AYAQA_WEB_PORT` }} {{ user `AYAQA_SECURE_WEB_PORT` }}",
+                "ENTRYPOINT {{ user `AYAQA_IMAGE_ENTRYPOINT_FILE_PATH` }}"
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "mkdir --parents {{ user `AYAQA_APP_ROOT_DIR` }}"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "{{ user `BUILD_DIR`}}/provision/",
+            "destination": "{{ user `AYAQA_PROVISION_IMAGE_DIR` }}"
+        },
+        {
+            "type": "file",
+            "source": "{{user `BUILD_DIR` }}/scripts/",
+            "destination": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}"
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "docker-tag",
+            "repository": "{{ user `AYAQA_PROJECT_NAME` }}",
+            "tag": "{{ user `AYAQA_PROJECT_TAG` }}"
+        }
+    ]
+}

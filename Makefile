@@ -27,7 +27,6 @@ SHARED_FS_DIR=${DOCKER_BASE_DIR}/sharedfs
 COMMON_CONFIG_DIR=${DOCKER_BASE_DIR}/configs
 
 IMAGE_BUILD_ROOT_DIR=${IMAGES_BASE_DIR}/${IMAGE_NAME}
-
 PROVISION_CONFIG_DIR=${IMAGE_BUILD_ROOT_DIR}/provision
 
 # Files
@@ -46,6 +45,7 @@ SHARED_VARS_FILE_PATH=${COMMON_CONFIG_DIR}/shared-vars.json
 PACKER_BUILD_MANIFEST_PATH=${IMAGE_BUILD_ROOT_DIR}/build_manifest.json
 PACKER_BUILD_VARS_PATH=${IMAGE_BUILD_ROOT_DIR}/build_vars.json
 PACKER_BUILD_VARS_DYNAMIC_FILE=${IMAGE_BUILD_ROOT_DIR}/build_vars_dynamic.json
+PACKER_BUILD_PROVISION_SCRIPTS_DIR=${IMAGE_BUILD_ROOT_DIR}/scripts
 
 # Configurations parsed.
 PACKER_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_BUILD_VARS.${IMAGE_NAME}" ${SHARED_VARS_FILE_PATH} ${PACKER_VARS_FILE_PATH} ${CONFIG_JSON_GENERATED_FILE_PATH})
@@ -75,11 +75,19 @@ continue_if_image_dir_is_fine:
 		exit 1; \
 	fi;
 	@if [[ ! -f "${PACKER_BUILD_MANIFEST_PATH}" ]]; then \
-		echo "${ERROR_STRING} ${PACKER_BUILD_MANIFEST_PATH} was not found. "; \
+		echo "${ERROR_STRING} ${PACKER_BUILD_MANIFEST_PATH} build manifest was not found."; \
 		exit 1; \
 	fi;
 	@if [[ ! -f "${PACKER_BUILD_VARS_PATH}" ]]; then \
-		echo "${ERROR_STRING} ${PACKER_BUILD_VARS_PATH} was not found. "; \
+		echo "${ERROR_STRING} ${PACKER_BUILD_VARS_PATH} build vars was not found."; \
+		exit 1; \
+	fi;
+	@if [[ ! -d "${PROVISION_CONFIG_DIR}" ]]; then \
+		echo "${ERROR_STRING} ${PROVISION_CONFIG_DIR} provision dir was not found."; \
+		exit 1; \
+	fi;
+	@if [[ ! -d "${PACKER_BUILD_PROVISION_SCRIPTS_DIR}" ]]; then \
+		echo "${ERROR_STRING} ${PACKER_BUILD_PROVISION_SCRIPTS_DIR} scripts dir was not found."; \
 		exit 1; \
 	fi;
 
@@ -132,4 +140,6 @@ __build_local: validate_packer_build
 clear_after_build_local: continue_if_image_dir_is_fine
 	@echo "${INFO_STRING} Clean all dynamic files for ${YELLOW_COLOR}${IMAGE_NAME}${RESET_COLOR}."
 	@rm -f "${PACKER_BUILD_VARS_DYNAMIC_FILE}"
+	@rm -f "${PROVISION_VARS_DYNAMIC_FILE}"
+	@rm -f "${CONFIG_JSON_GENERATED_FILE_PATH}"
 	@echo "${OK_STRING} ${YELLOW_COLOR}${IMAGE_NAME}${RESET_COLOR} dynamics were cleared."

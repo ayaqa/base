@@ -3,11 +3,17 @@
         "base": {
             "AYAQA_PROJECT_NAME": "ayaqa_base",
             "AYAQA_PROJECT_TAG": "latest"
+        },
+        "dev": {
+            "AYAQA_PROJECT_NAME": "ayaqa_dev",
+            "AYAQA_PROJECT_TAG": "latest"
         }
     },
     "AYAQA_PROVISION_VARS": {
         "base": {
             "AYAQA_SUPERVISOR_PASSWORD": "123"
+        },
+        "dev": {
         }
     }
 }
