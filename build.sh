@@ -15,7 +15,15 @@ CONFIG_FILE_PATH="${BASE_DIR}/config-generated.json"
 source "${LIBS_DIR}/liblog.sh"
 # }}}
 
-function docker_image_exist() {
+########################
+# Check if image exists in docker images and build it if not.
+#
+# Arguments:
+#   $1 - docker image name
+#   $2 - docker image tag
+#   $3 - docker image build dir name
+#########################
+function check_if_image_exists() {
     local IMAGE_NAME=$1
     local IMAGE_TAG=$2
     local IMAGE_BUILD_FOLDER=$3
@@ -27,7 +35,7 @@ function docker_image_exist() {
         read -r -p "Build it? [Y/n] " build_image
         build_image="${build_image:-${DEFAULT}}"
         if [[ "$build_image" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-            docker_build_image ${IMAGE_BUILD_FOLDER} ${IMAGE_NAME}
+            build_docker_image ${IMAGE_BUILD_FOLDER} ${IMAGE_NAME}
         else
             log_error "${IMAGE_NAME} - build was cancelled."
             exit 1
@@ -37,9 +45,17 @@ function docker_image_exist() {
     fi
 }
 
-function docker_build_image() {
+########################
+# Build docker image using make file
+#
+# Arguments:
+#   $1 - docker image build dir name
+#   $2 - docker image name
+#########################
+function build_docker_image() {
     local IMAGE_DIR=$1
     local IMAGE_NAME=$2
+
     info "Start building of: '${IMAGE_NAME}'"
     cd "${BASE_DIR}/" && make build_local IMAGE_NAME=${IMAGE_DIR}
     if [ $? != 0 ]; then
@@ -67,7 +83,7 @@ for row in $ALL_IMAGES; do
     IMAGE_NAME=$(jq -r '.value | .AYAQA_PROJECT_NAME' <<< ${row})
     IMAGE_TAG=$(jq -r '.value | .AYAQA_PROJECT_TAG' <<< ${row})
 
-    docker_image_exist $IMAGE_NAME $IMAGE_TAG $IMAGE_FOLDER
+    check_if_image_exists $IMAGE_NAME $IMAGE_TAG $IMAGE_FOLDER
 done
 make clear_after_build_local
 cd -
