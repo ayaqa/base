@@ -1,0 +1,18 @@
+---
+- name: "Include setup tasks: setup-{{ ansible_distribution | lower }}.yml"
+  include_tasks: 
+    file: "setup-{{ ansible_distribution | lower }}.yml"
+    apply:
+      tags: 
+        - provision
+  tags:
+    - provision
+
+- name: "Include configure tasks: configure-{{ ansible_distribution | lower }}.yml"
+  include_tasks: 
+    file: "configure-{{ ansible_distribution | lower }}.yml"
+    apply:
+      tags: 
+        - provision
+  tags:
+    - provision

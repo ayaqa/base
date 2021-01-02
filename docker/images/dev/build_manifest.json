@@ -31,6 +31,17 @@
             "type": "file",
             "source": "{{user `BUILD_DIR` }}/scripts/",
             "destination": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "chmod 700 {{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}",
+                "{{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}"
+            ],
+            "environment_vars": [
+                "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}",
+                "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}"
+            ]
         }
     ],
     "post-processors": [
