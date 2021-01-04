@@ -1,0 +1,13 @@
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+  loop: "{{  list_of_packages  }}"
+
+- name: Install all php extensions
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+  loop: "{{  list_of_php_packages  }}"

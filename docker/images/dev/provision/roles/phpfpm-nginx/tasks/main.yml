@@ -1,0 +1,27 @@
+---
+- name: "Include setup tasks: setup-{{ ansible_distribution | lower }}.yml"
+  include_tasks:
+    file: "setup-{{ ansible_distribution | lower }}.yml"
+    apply:
+      tags: 
+        - provision
+  tags: 
+    - provision
+
+- name: "Include configure FPM tasks: configure-fpm-{{ ansible_distribution | lower }}.yml"
+  include_tasks:
+    file: "configure-fpm-{{ ansible_distribution | lower }}.yml"
+    apply:
+      tags: 
+        - provision
+  tags: 
+    - provision
+
+- name: "Include configure NGINX tasks: configure-nginx-{{ ansible_distribution | lower }}.yml"
+  include_tasks:
+    file: "configure-nginx-{{ ansible_distribution | lower }}.yml"
+    apply:
+      tags: 
+        - provision
+  tags: 
+    - provision

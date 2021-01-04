@@ -7,7 +7,6 @@
   vars:
     ansible_python_interpreter: /usr/bin/python
     php_version: "{{ AYAQA_PHP_VERSION }}"
-    php_fpm_config_dir: "{{ AYAQA_PHP_FPM_CONFIG_DIR }}"
     php_cli_config_dir: "{{ AYAQA_PHP_CLI_CONFIG_DIR }}"
     php_xdebug_module_config_file: "{{ AYAQA_PHP_MODULE_CONFIG_DIR }}/xdebug.ini"
     list_of_php_packages: [
@@ -23,8 +22,6 @@
       "php8.0-dom",
       "php8.0-intl"
     ]
-    image_entry_file_path: "{{ AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH }}"
-    default_entry_file_path: "{{ AYAQA_IMAGE_ENTRYPOINT_FILE_PATH }}"
 
   tasks:
     - name: "DEBUG: Dump variables."
@@ -39,14 +36,10 @@
           - "App Debug: {{ AYAQA_APP_DEBUG }}"
           - "----------------- ### ---------------------"
           - "PHP Version: {{ php_version }}"
-          - "PHP FPM dir: {{ php_fpm_config_dir }}"
           - "PHP CLI dir: {{ php_cli_config_dir }}"
           - "Xdebug port: {{ AYAQA_XDEBUG_PORT }}"
           - "Xdebug cli path: {{ php_xdebug_module_config_file }}"
           - "PHP packages: {{ list_of_php_packages | join(', ') }}"
-          - "----------------- ### ---------------------"
-          - "Default entry file path: {{ default_entry_file_path }}"
-          - "Current image entry path: {{ image_entry_file_path }}"
           - "----------------- End ---------------------"
       tags:
         - debug_info

@@ -1,0 +1,6 @@
+{{ ansible_managed | comment(decoration="; ") }}
+
+pid = {{ phpfpm_fpm_config_pid_path }}/php-fpm.pid
+error_log = {{ phpfpm_fpm_config_error_log_path }}
+daemonize = {{ 'yes' if phpfpm_fpm_config_daemonize else 'no' }}
+include={{ phpfpm_fpm_dir }}/pool.d/*.conf
