@@ -1,6 +1,6 @@
 # Set default values
 ####################
-SHELL 			   := /bin/bash
+SHELL			   := /bin/bash
 BUILD_TAG          ?= NULL
 BUILD_ENABLE_DEBUG ?= false
 IMAGE_NAME         ?= base
@@ -12,7 +12,7 @@ YELLOW_COLOR=$$(tput setaf 3)
 CYAN_COLOR=$$(tput setaf 6)
 
 OK_STRING=$(GREEN_COLOR)[OK]$(RESET_COLOR)
-ERROR_STRING=$(RED_COLOR)[ERRORS]$(RESET_COLOR)
+ERROR_STRING=$(RED_COLOR)[ERROR]$(RESET_COLOR)
 WARN_STRING=$(YELLOW_COLOR)[WARNING]$(RESET_COLOR)
 INFO_STRING=$(CYAN_COLOR)[INFO]$(RESET_COLOR)
 
@@ -20,8 +20,8 @@ LOCAL_REGISTRY="localhost:5001"
 
 # Dirs
 ######
-BASE_DIR=.
-DOCKER_BASE_DIR=docker
+ROOT_INFRA_DIR=${CURDIR}
+DOCKER_BASE_DIR=${ROOT_INFRA_DIR}/docker
 IMAGES_BASE_DIR=${DOCKER_BASE_DIR}/images
 SHARED_FS_DIR=${DOCKER_BASE_DIR}/sharedfs
 COMMON_CONFIG_DIR=${DOCKER_BASE_DIR}/configs
@@ -31,9 +31,9 @@ PROVISION_CONFIG_DIR=${IMAGE_BUILD_ROOT_DIR}/provision
 
 # Files
 #######
-CONFIG_JSON_MAIN_FILE_PATH=${BASE_DIR}/config.json
-CONFIG_JSON_LOCAL_FILE_PATH=${BASE_DIR}/config-local.json
-CONFIG_JSON_GENERATED_FILE_PATH=${BASE_DIR}/config-generated.json
+CONFIG_JSON_MAIN_FILE_PATH=${ROOT_INFRA_DIR}/config.json
+CONFIG_JSON_LOCAL_FILE_PATH=${ROOT_INFRA_DIR}/config-local.json
+CONFIG_JSON_GENERATED_FILE_PATH=${ROOT_INFRA_DIR}/config-generated.json
 
 # Common paths to files
 PACKER_VARS_FILE_PATH=${COMMON_CONFIG_DIR}/packer-only-vars.json
@@ -54,6 +54,7 @@ PROVISION_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_PROVISION_VARS.${IMAGE_NAME}" 
 # Aliases
 #########
 help: display_help
+clear: clear_after_build_local
 build_local: pre_build_local __build_local clear_after_build_local
 pre_build_local: compile_configs
 compile_configs: continue_if_image_dir_is_fine compile_config_file compile_packer_dynamic_env compile_provision_dynamic_env
@@ -63,7 +64,10 @@ compile_configs: continue_if_image_dir_is_fine compile_config_file compile_packe
 display_help:
 	@echo "";
 	@echo -e "Usage example:\t make [TASK] [VARIABLES]";
-	@echo -e "\t\t make display_config \t\t\t\t display configuration file.";
+	@echo -e "\t\t make display_config \t\t\t\t- display configuration file.";
+	@echo -e "\t\t make compile_configs \t\t\t\t- compile configs and dynamic envs.";
+	@echo -e "\t\t make build_local IMAGE_NAME=<image folder> \t- build image.";
+	@echo -e "\t\t make clear \t\t\t\t\t- clear all dynamic files.";
 
 display_config: compile_config_file
 	@echo "${INFO_STRING} Raw json configuration file"
