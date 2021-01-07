@@ -1,0 +1,18 @@
+# Dirs
+######
+DOCKER_BASE_DIR=${ROOT_INFRA_DIR}/docker
+IMAGES_BASE_DIR=${DOCKER_BASE_DIR}/images
+SHARED_FS_DIR=${DOCKER_BASE_DIR}/sharedfs
+COMMON_CONFIG_DIR=${DOCKER_BASE_DIR}/configs
+
+# Files
+#######
+CONFIG_JSON_MAIN_FILE_PATH=${ROOT_INFRA_DIR}/config.json
+CONFIG_JSON_LOCAL_FILE_PATH=${ROOT_INFRA_DIR}/config-local.json
+CONFIG_JSON_GENERATED_FILE_PATH=${ROOT_INFRA_DIR}/config-generated.json
+
+# Common paths to files
+PACKER_VARS_FILE_PATH=${COMMON_CONFIG_DIR}/packer-only-vars.json
+PROVISION_VARS_FILE_PATH=${COMMON_CONFIG_DIR}/provision-only-vars.json
+PROVISION_VARS_DYNAMIC_FILE=${PROVISION_CONFIG_DIR}/provision_vars_dynamic.json
+SHARED_VARS_FILE_PATH=${COMMON_CONFIG_DIR}/shared-vars.json

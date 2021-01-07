@@ -1,6 +1,6 @@
 # Set default values
 ####################
-SHELL			   := /bin/bash
+SHELL              := /bin/bash
 BUILD_TAG          ?= NULL
 BUILD_ENABLE_DEBUG ?= false
 IMAGE_NAME         ?= base
@@ -18,28 +18,11 @@ INFO_STRING=$(CYAN_COLOR)[INFO]$(RESET_COLOR)
 
 LOCAL_REGISTRY="localhost:5001"
 
-# Dirs
-######
 ROOT_INFRA_DIR=${CURDIR}
-DOCKER_BASE_DIR=${ROOT_INFRA_DIR}/docker
-IMAGES_BASE_DIR=${DOCKER_BASE_DIR}/images
-SHARED_FS_DIR=${DOCKER_BASE_DIR}/sharedfs
-COMMON_CONFIG_DIR=${DOCKER_BASE_DIR}/configs
+include vars.mk
 
 IMAGE_BUILD_ROOT_DIR=${IMAGES_BASE_DIR}/${IMAGE_NAME}
 PROVISION_CONFIG_DIR=${IMAGE_BUILD_ROOT_DIR}/provision
-
-# Files
-#######
-CONFIG_JSON_MAIN_FILE_PATH=${ROOT_INFRA_DIR}/config.json
-CONFIG_JSON_LOCAL_FILE_PATH=${ROOT_INFRA_DIR}/config-local.json
-CONFIG_JSON_GENERATED_FILE_PATH=${ROOT_INFRA_DIR}/config-generated.json
-
-# Common paths to files
-PACKER_VARS_FILE_PATH=${COMMON_CONFIG_DIR}/packer-only-vars.json
-PROVISION_VARS_FILE_PATH=${COMMON_CONFIG_DIR}/provision-only-vars.json
-PROVISION_VARS_DYNAMIC_FILE=${PROVISION_CONFIG_DIR}/provision_vars_dynamic.json
-SHARED_VARS_FILE_PATH=${COMMON_CONFIG_DIR}/shared-vars.json
 
 # IMAGE_NAME based paths to build & vars
 PACKER_BUILD_MANIFEST_PATH=${IMAGE_BUILD_ROOT_DIR}/build_manifest.json
