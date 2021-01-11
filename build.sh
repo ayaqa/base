@@ -57,7 +57,7 @@ function build_docker_image() {
     local IMAGE_NAME=$2
 
     info "Start building of: '${IMAGE_NAME}'"
-    cd "${BASE_DIR}/" && make build_local IMAGE_NAME=${IMAGE_DIR}
+    cd "${BASE_DIR}/" && make -s build_local IMAGE_NAME=${IMAGE_DIR}
     if [ $? != 0 ]; then
         cd -
         log_error "Cannot build ${IMAGE_NAME}"
