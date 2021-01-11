@@ -1,0 +1,22 @@
+---
+  - name: "Ensure sshd is configured."
+    include_tasks:
+      file: ssh.yml
+      apply:
+        tags: 
+          - ssh_config
+          - provision
+    tags:
+      - ssh_config
+      - provision
+
+  - name: "Ensure vhost is configured."
+    include_tasks:
+      file: vhost.yml
+      apply:
+        tags: 
+          - nginx_vhost
+          - provision
+    tags:
+      - nginx_vhost
+      - provision
