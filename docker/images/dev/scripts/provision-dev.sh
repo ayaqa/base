@@ -24,3 +24,7 @@ ansible-playbook ${AYAQA_PROVISION_IMAGE_DIR}/supervisor.yml
 info "Run internal provision"
 ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/internal.yml
 ansible-playbook --tags "provision"  ${AYAQA_PROVISION_IMAGE_DIR}/internal.yml
+
+info "Run common provision"
+ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/common.yml
+ansible-playbook --tags "provision"  ${AYAQA_PROVISION_IMAGE_DIR}/common.yml
