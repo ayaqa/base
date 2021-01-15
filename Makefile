@@ -42,7 +42,7 @@ PACKER_BUILD_PROVISION_SCRIPTS_DIR=${IMAGE_BUILD_ROOT_DIR}/scripts
 PACKER_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_BUILD_VARS.${IMAGE_NAME}" ${SHARED_VARS_FILE_PATH} ${PACKER_VARS_FILE_PATH} ${CONFIG_JSON_GENERATED_FILE_PATH})
 PROVISION_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_PROVISION_VARS.${IMAGE_NAME}" ${SHARED_VARS_FILE_PATH} ${PROVISION_VARS_FILE_PATH} ${CONFIG_JSON_GENERATED_FILE_PATH})
 
-.PHONY: help clear build_local pre_build_local compile_configs validate_packer_build
+.PHONY: help clear build_local pre_build_local compile_configs compile_dynamic_config validate_packer_build
 
 # Aliases
 #########
@@ -51,7 +51,8 @@ clear: .clear_after_build_local
 validate_local: .validate_packer_build
 build_local: pre_build_local .build_local .clear_after_build_local
 pre_build_local: compile_configs
-compile_configs: .continue_if_image_dir_is_fine .compile_config_file .compile_packer_dynamic_env .compile_provision_dynamic_env
+compile_dynamic_config: .compile_config_file
+compile_configs: .continue_if_image_dir_is_fine compile_dynamic_config .compile_packer_dynamic_env .compile_provision_dynamic_env
 
 # Helpers
 #########
@@ -59,6 +60,7 @@ compile_configs: .continue_if_image_dir_is_fine .compile_config_file .compile_pa
 	@echo "";
 	@echo -e "Usage example:\t make [TASK] [VARIABLES]";
 	@echo -e "\t\t make display_config \t\t\t\t- display ${CONFIG_JSON_GENERATED_FILE_NAME} configuration file.";
+	@echo -e "\t\t make compile_dynamic_config \t\t\t- compile ${CONFIG_JSON_GENERATED_FILE_NAME} using static and local if exists.";
 	@echo -e "\t\t make compile_configs \t\t\t\t- compile configs and build dynamic envs.";
 	@echo -e "\t\t make validate_local IMAGE_NAME=<image folder> \t- validate packer build file.";
 	@echo -e "\t\t make build_local IMAGE_NAME=<image folder> \t- build image using packer.";

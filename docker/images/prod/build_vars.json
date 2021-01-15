@@ -1,0 +1,11 @@
+{
+    "AYAQA_PROJECT_BI": "ayaqa_dev",
+    "AYAQA_PROJECT_BIT": "latest",
+
+    "AYAQA_PROJECT_NAME": "ayaqa",
+    "AYAQA_PROJECT_TAG": "latest",
+    "AYAQA_PROJECT_DIR": "prod",
+
+    "AYAQA_PROVISION_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/provision-prod.sh",
+    "AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/entrypoint-prod.sh"
+}
