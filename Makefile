@@ -49,7 +49,7 @@ PROVISION_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_PROVISION_VARS.${IMAGE_NAME}" 
 help: .display_help
 clear: .clear_after_build_local
 validate_local: .validate_packer_build
-build_local: pre_build_local .build_local .clear_after_build_local
+build_local: pre_build_local .build_local clear
 pre_build_local: compile_configs
 compile_dynamic_config: .compile_config_file
 compile_configs: .continue_if_image_dir_is_fine compile_dynamic_config .compile_packer_dynamic_env .compile_provision_dynamic_env
@@ -138,7 +138,7 @@ display_config: .compile_config_file
 			-timestamp-ui \
 	    	"${PACKER_BUILD_MANIFEST_FILE_PATH}" || exit 1;
 
-.clear_after_build_local: .continue_if_image_dir_is_fine
+.clear_after_build_local:
 	@echo "${INFO_STRING} Clean all dynamic files for ${IMAGE_FORMATTED_FOR_PRINT}."
 	@rm -f "${PACKER_BUILD_VARS_DYNAMIC_FILE_PATH}"
 	@rm -f "${PROVISION_VARS_DYNAMIC_FILE_PATH}"

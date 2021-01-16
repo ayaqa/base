@@ -20,7 +20,8 @@
         {
             "type": "shell",
             "inline": [
-                "mkdir --parents {{ user `AYAQA_APP_ROOT_DIR` }}"
+                "mkdir --parents {{ user `AYAQA_APP_ROOT_DIR` }}",
+                "mkdir --parents {{ user `AYAQA_SQLITE_DB_PATH` }}"
             ]
         },
         {
@@ -37,7 +38,8 @@
             "type": "shell",
             "inline": [
                 "chmod 700 {{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}",
-                "{{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}"
+                "{{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}",
+                "touch {{ user `AYAQA_SQLITE_DB_FULL_PATH` }}"
             ],
             "environment_vars": [
                 "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}",

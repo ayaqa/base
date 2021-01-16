@@ -6,6 +6,10 @@
     "AYAQA_PROJECT_TAG": "latest",
     "AYAQA_PROJECT_DIR": "dev",
 
+    "AYAQA_SQLITE_DB_PATH": "{{ user `AYAQA_INFRA_PERSIST_DIR` }}/db/",
+    "AYAQA_SQLITE_DB_FILE_NAME": "ayaqa.sqlite",
+    "AYAQA_SQLITE_DB_FULL_PATH": "{{ user `AYAQA_SQLITE_DB_PATH` }}/{{ user `AYAQA_SQLITE_DB_FILE_NAME` }}",
+
     "AYAQA_PROVISION_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/provision-dev.sh",
     "AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/entrypoint-dev.sh"
 }
