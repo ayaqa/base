@@ -6,24 +6,12 @@
             "commit": true,
             "changes": [
                 "USER root",
-                "ENV DEBIAN_FRONTEND noninteractive",
-                "ENV TERM xterm",
-                "ENV AYAQA_HOSTNAME {{ user `AYAQA_PROJECT_NAME` }}",
-                "ENV AYAQA_BUILD_STAGE {{ user `AYAQA_PROJECT_BUILD_STAGE` }}",
-                "ENV AYAQA_APP_ENV {{ user `AYAQA_APP_ENV` }}",
-                "ENV AYAQA_DEBUG {{ user `AYAQA_PROJECT_DEBUG` }}",
+                
                 "ENV AYAQA_APP_DEBUG {{ user `AYAQA_APP_DEBUG` }}",
-
-                "ENV AYAQA_INFRA_DIR {{ user `AYAQA_INFRA_DIR` }}",
-                "ENV AYAQA_INFRA_LIBS_DIR {{ user `AYAQA_INFRA_LIBS_DIR` }}",
-
-                "ENV AYAQA_CONFIG_DIR {{ user `AYAQA_CONFIG_DIR` }}",
-                "ENV AYAQA_BOOT_CONFIG_DIR {{ user `AYAQA_BOOT_CONFIG_DIR` }}",
-                "ENV AYAQA_IMAGE_BOOT_SETUP_FILE_PATH {{ user `AYAQA_IMAGE_BOOT_SETUP_FILE_PATH` }}",
-
+                
                 "EXPOSE {{ user `AYAQA_SSH_PORT` }}",
-
                 "VOLUME {{ user `AYAQA_BOOT_CONFIG_DIR` }}",
+                
                 "ENTRYPOINT {{ user `AYAQA_IMAGE_ENTRYPOINT_FILE_PATH` }}"
             ]
         }
@@ -49,7 +37,9 @@
                 "mkdir --parents {{ user `AYAQA_INFRA_PROVISION_DIR` }}",
                 "mkdir --parents {{ user `AYAQA_INFRA_LIBS_DIR` }}",
                 "mkdir --parents {{ user `AYAQA_INFRA_PROVISION_SHARED_DIR` }}",
-                "mkdir --parents {{ user `AYAQA_INFRA_RUN_FOLDER` }}"
+                "mkdir --parents {{ user `AYAQA_INFRA_RUN_FOLDER` }}",
+                "mkdir --parents {{ user `AYAQA_INFRA_SCRIPTS_SHARED_DIR` }}",
+                "mkdir --parents {{ user `AYAQA_ENV_VARS_BASHRC_DIR` }}"
             ]
         },
         {
@@ -72,6 +62,11 @@
         },
         {
             "type": "file",
+            "source": "{{ user `SHARED_FS_DIR` }}/scripts/",
+            "destination": "{{ user `AYAQA_INFRA_SCRIPTS_SHARED_DIR` }}"
+        },
+        {
+            "type": "file",
             "source": "{{ user `BUILD_DIR`}}/provision/",
             "destination": "{{ user `AYAQA_PROVISION_IMAGE_DIR` }}"
         },
@@ -79,6 +74,24 @@
             "type": "file",
             "source": "{{user `BUILD_DIR` }}/scripts/",
             "destination": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "chmod +x -R {{ user `AYAQA_INFRA_SCRIPTS_SHARED_DIR` }}/",
+                "{{ user `AYAQA_DUMP_ENV_FILE_PATH` }} 01_base_vars"
+            ],
+            "environment_vars": [
+                "AYAQA_INFRA_DIR={{ user `AYAQA_INFRA_DIR` }}",
+                "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}",
+                "AYAQA_BUILD_STAGE={{ user `AYAQA_PROJECT_BUILD_STAGE` }}",
+                "AYAQA_HOSTNAME={{ user `AYAQA_PROJECT_NAME` }}",
+                "AYAQA_APP_ENV={{ user `AYAQA_APP_ENV` }}",
+                "AYAQA_DEBUG={{ user `AYAQA_PROJECT_DEBUG` }}",
+                "AYAQA_CONFIG_DIR={{ user `AYAQA_CONFIG_DIR` }}",
+                "AYAQA_BOOT_CONFIG_DIR={{ user `AYAQA_BOOT_CONFIG_DIR` }}",
+                "AYAQA_IMAGE_BOOT_SETUP_FILE_PATH={{ user `AYAQA_IMAGE_BOOT_SETUP_FILE_PATH` }}"
+            ]
         },
         {
             "type": "shell",

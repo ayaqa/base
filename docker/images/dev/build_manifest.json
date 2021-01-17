@@ -7,8 +7,7 @@
             "pull": false,
             "changes": [
                 "USER root",
-                "ENV DEBIAN_FRONTEND noninteractive",
-
+                
                 "VOLUME {{ user `AYAQA_APP_ROOT_DIR` }}",
                 "VOLUME {{ user `AYAQA_INFRA_PERSIST_DIR` }}",
                 "EXPOSE {{ user `AYAQA_PHPFPM_PORT` }} {{ user `AYAQA_XDEBUG_PORT` }} {{ user `AYAQA_WEB_PORT` }} {{ user `AYAQA_SECURE_WEB_PORT` }}",
@@ -37,9 +36,20 @@
         {
             "type": "shell",
             "inline": [
-                "chmod 700 {{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}",
-                "{{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}",
+                "{{ user `AYAQA_DUMP_ENV_FILE_PATH` }} 02_dev_vars",
                 "touch {{ user `AYAQA_SQLITE_DB_FULL_PATH` }}"
+            ],
+            "environment_vars": [
+                "AYAQA_SQLITE_DB_PATH={{ user `AYAQA_SQLITE_DB_PATH` }}",
+                "AYAQA_SQLITE_DB_FILE_NAME={{ user `AYAQA_SQLITE_DB_FILE_NAME` }}",
+                "AYAQA_SQLITE_DB_FULL_PATH={{ user `AYAQA_SQLITE_DB_FULL_PATH` }}"
+            ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "chmod 700 {{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}",
+                "{{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}"
             ],
             "environment_vars": [
                 "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}",

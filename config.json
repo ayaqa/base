@@ -10,7 +10,13 @@
         },
         "prod": {
             "AYAQA_PROJECT_NAME": "ayaqa",
-            "AYAQA_PROJECT_TAG": "latest"
+            "AYAQA_PROJECT_TAG": "latest",
+            
+            "AYAQA_APP_ENV": "prod",
+            "AYAQA_APP_DEBUG": "false",
+
+            "AYAQA_PROJECT_BUILD_STAGE": "prod",
+            "AYAQA_PROJECT_DEBUG": "false"
         }
     },
     "AYAQA_PROVISION_VARS": {
@@ -18,6 +24,9 @@
             "AYAQA_SUPERVISOR_PASSWORD": "123"
         },
         "dev": {},
-        "prod": {}
+        "prod": {
+            "AYAQA_APP_ENV": "prod",
+            "AYAQA_APP_DEBUG": "false"
+        }
     }
 }

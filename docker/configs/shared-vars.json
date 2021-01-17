@@ -10,7 +10,9 @@
     "AYAQA_INFRA_PROVISION_DIR": "/opt/ayaqa/provision",
     "AYAQA_INFRA_LIBS_DIR": "/opt/ayaqa/libs",
     "AYAQA_INFRA_RUN_FOLDER": "/opt/ayaqa/run",
+    "AYAQA_INFRA_SCRIPTS_SHARED_DIR": "/opt/ayaqa/scripts/shared",
     "AYAQA_INFRA_PROVISION_SHARED_DIR": "/opt/ayaqa/provision/shared",
+    "AYAQA_INFRA_STUBS_DIR": "",
     "AYAQA_INFRA_PERSIST_DIR": "/opt/ayaqa/persist", 
 
     "AYAQA_CONFIG_DIR": "/opt/ayaqa/confs",
@@ -31,5 +33,7 @@
     "AYAQA_PHP_CONFIG_DIR": "/etc/php/8.0",
     "AYAQA_PHP_MODULE_CONFIG_DIR": "/etc/php/8.0/mods-available",
     "AYAQA_PHP_CLI_CONFIG_DIR": "/etc/php/8.0/cli",
-    "AYAQA_PHP_FPM_CONFIG_DIR": "/etc/php/8.0/fpm"
+    "AYAQA_PHP_FPM_CONFIG_DIR": "/etc/php/8.0/fpm",
+
+    "AYAQA_ENV_VARS_BASHRC_DIR": "/etc/bashrc.d"
 }

@@ -5,9 +5,44 @@
   tags: 
     - configure-timezone
 
-- name: Set locales
+- name: "Ensure proper locale is generated and is set"
   shell: |
     echo "LC_ALL=en_US.UTF-8" >> /etc/environment
     echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
     echo "LANG=en_US.UTF-8" > /etc/locale.conf
     locale-gen en_US.UTF-8
+
+- name: "Ensure {{ bashd_folder_path }} exists"
+  file:
+      path: "{{ bashd_folder_path }}"
+      state: directory
+
+- name: "Ensure .sh scripts from {{ bashd_folder_path }} will load on login."
+  blockinfile:
+    path: "{{ bashrc_file_path }}"
+    marker: "## {mark} ANSIBLE MANAGED BLOCK ##"
+    insertafter: "EOF"
+    block: |
+      if [ -d {{ bashd_folder_path }} ]; then
+        set -o allexport
+        for i in {{ bashd_folder_path }}/*.sh; do
+          if [ -r $i ]; then
+            . $i
+          fi
+        done
+        unset i
+        set +o allexport
+      fi
+
+- name: "Ensure {{ default_linux_envs_file_name }} exists"
+  file:
+      path: "{{ bashd_folder_path }}/{{ default_linux_envs_file_name }}"
+      state: touch
+      modification_time: now
+      access_time: now
+
+- name: Add linux related envs
+  blockinfile:
+    path: "{{ bashd_folder_path }}/{{ default_linux_envs_file_name }}"
+    block: "{{ default_linux_envs }}"
+    marker: "## {mark} ANSIBLE MANAGED BLOCK ##"

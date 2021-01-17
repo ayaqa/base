@@ -21,6 +21,13 @@
     ]
     image_entry_file_path: "{{ AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH }}"
     default_entry_file_path: "{{ AYAQA_IMAGE_ENTRYPOINT_FILE_PATH }}"
+    default_linux_envs_file_name: 00_linux_vars.sh
+    default_linux_envs: |
+      DEBIAN_FRONTEND=noninteractive
+      TERM=xterm
+
+    bashd_folder_path: "{{ AYAQA_ENV_VARS_BASHRC_DIR }}"
+    bashrc_file_path: "~/.bashrc"
 
   tasks:
     - name: "DEBUG: Dump variables."
