@@ -12,10 +12,7 @@
     "AYAQA_INFRA_RUN_FOLDER": "/opt/ayaqa/run",
     "AYAQA_INFRA_SCRIPTS_SHARED_DIR": "/opt/ayaqa/scripts/shared",
     "AYAQA_INFRA_PROVISION_SHARED_DIR": "/opt/ayaqa/provision/shared",
-    "AYAQA_INFRA_STUBS_DIR": "",
     "AYAQA_INFRA_PERSIST_DIR": "/opt/ayaqa/persist", 
-
-    "AYAQA_CONFIG_DIR": "/opt/ayaqa/confs",
     "AYAQA_BOOT_CONFIG_DIR": "/opt/ayaqa/boot_confs",
 
     "AYAQA_APP_ROOT_DIR": "/app",

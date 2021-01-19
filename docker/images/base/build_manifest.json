@@ -82,13 +82,15 @@
                 "{{ user `AYAQA_DUMP_ENV_FILE_PATH` }} 01_base_vars"
             ],
             "environment_vars": [
+                "AYAQA_HOSTNAME={{ user `AYAQA_PROJECT_NAME` }}",
+                "AYAQA_BASE_BUILD_STAGE={{ user `AYAQA_PROJECT_BUILD_STAGE` }}",
+                "AYAQA_BASE_BUILD_CONTAINER_NAME={{ user `AYAQA_PROJECT_NAME` }}",
+                "AYAQA_BASE_BUILD_CONTAINER_TAG={{ user `AYAQA_PROJECT_TAG` }}",
+                
                 "AYAQA_INFRA_DIR={{ user `AYAQA_INFRA_DIR` }}",
                 "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}",
-                "AYAQA_BUILD_STAGE={{ user `AYAQA_PROJECT_BUILD_STAGE` }}",
-                "AYAQA_HOSTNAME={{ user `AYAQA_PROJECT_NAME` }}",
                 "AYAQA_APP_ENV={{ user `AYAQA_APP_ENV` }}",
                 "AYAQA_DEBUG={{ user `AYAQA_PROJECT_DEBUG` }}",
-                "AYAQA_CONFIG_DIR={{ user `AYAQA_CONFIG_DIR` }}",
                 "AYAQA_BOOT_CONFIG_DIR={{ user `AYAQA_BOOT_CONFIG_DIR` }}",
                 "AYAQA_IMAGE_BOOT_SETUP_FILE_PATH={{ user `AYAQA_IMAGE_BOOT_SETUP_FILE_PATH` }}"
             ]

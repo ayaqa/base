@@ -40,6 +40,11 @@
                 "touch {{ user `AYAQA_SQLITE_DB_FULL_PATH` }}"
             ],
             "environment_vars": [
+                "AYAQA_HOSTNAME={{ user `AYAQA_PROJECT_NAME` }}",
+                "AYAQA_DEV_BUILD_STAGE={{ user `AYAQA_PROJECT_BUILD_STAGE` }}",
+                "AYAQA_DEV_BUILD_CONTAINER_NAME={{ user `AYAQA_PROJECT_NAME` }}",
+                "AYAQA_DEV_BUILD_CONTAINER_TAG={{ user `AYAQA_PROJECT_TAG` }}",
+
                 "AYAQA_SQLITE_DB_PATH={{ user `AYAQA_SQLITE_DB_PATH` }}",
                 "AYAQA_SQLITE_DB_FILE_NAME={{ user `AYAQA_SQLITE_DB_FILE_NAME` }}",
                 "AYAQA_SQLITE_DB_FULL_PATH={{ user `AYAQA_SQLITE_DB_FULL_PATH` }}"
