@@ -7,6 +7,7 @@
             "changes": [
                 "USER root",
                 
+                "ENV AYAQA_DEBUG {{ user `AYAQA_PROJECT_DEBUG` }}",
                 "ENV AYAQA_APP_DEBUG {{ user `AYAQA_APP_DEBUG` }}",
                 
                 "EXPOSE {{ user `AYAQA_SSH_PORT` }}",
@@ -83,14 +84,13 @@
             ],
             "environment_vars": [
                 "AYAQA_HOSTNAME={{ user `AYAQA_PROJECT_NAME` }}",
+                "AYAQA_APP_ENV={{ user `AYAQA_APP_ENV` }}",
                 "AYAQA_BASE_BUILD_STAGE={{ user `AYAQA_PROJECT_BUILD_STAGE` }}",
                 "AYAQA_BASE_BUILD_CONTAINER_NAME={{ user `AYAQA_PROJECT_NAME` }}",
                 "AYAQA_BASE_BUILD_CONTAINER_TAG={{ user `AYAQA_PROJECT_TAG` }}",
-                
+
                 "AYAQA_INFRA_DIR={{ user `AYAQA_INFRA_DIR` }}",
                 "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}",
-                "AYAQA_APP_ENV={{ user `AYAQA_APP_ENV` }}",
-                "AYAQA_DEBUG={{ user `AYAQA_PROJECT_DEBUG` }}",
                 "AYAQA_BOOT_CONFIG_DIR={{ user `AYAQA_BOOT_CONFIG_DIR` }}",
                 "AYAQA_IMAGE_BOOT_SETUP_FILE_PATH={{ user `AYAQA_IMAGE_BOOT_SETUP_FILE_PATH` }}"
             ]

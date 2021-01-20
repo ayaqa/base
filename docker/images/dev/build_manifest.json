@@ -10,7 +10,9 @@
                 
                 "VOLUME {{ user `AYAQA_APP_ROOT_DIR` }}",
                 "VOLUME {{ user `AYAQA_INFRA_PERSIST_DIR` }}",
+
                 "EXPOSE {{ user `AYAQA_PHPFPM_PORT` }} {{ user `AYAQA_XDEBUG_PORT` }} {{ user `AYAQA_WEB_PORT` }} {{ user `AYAQA_SECURE_WEB_PORT` }}",
+                
                 "ENTRYPOINT {{ user `AYAQA_IMAGE_ENTRYPOINT_FILE_PATH` }}"
             ]
         }

@@ -7,7 +7,6 @@
             "pull": false,
             "changes": [
                 "USER root",
-                "ENV DEBIAN_FRONTEND noninteractive",
 
                 "ENTRYPOINT {{ user `AYAQA_IMAGE_ENTRYPOINT_FILE_PATH` }}"
             ]
