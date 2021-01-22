@@ -6,6 +6,8 @@
     "AYAQA_PROJECT_TAG": "latest",
     "AYAQA_PROJECT_DIR": "prod",
 
+    "AYAQA_PROD_APP_ROOT_DIR": "/ayaqa",
+
     "AYAQA_PROVISION_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/provision-prod.sh",
     "AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/entrypoint-prod.sh"
 }

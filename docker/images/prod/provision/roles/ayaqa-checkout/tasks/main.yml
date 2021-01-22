@@ -1,0 +1,47 @@
+---
+- name: "Ensure private key is there and have proper mode"
+  file:
+    path: "{{ build_deploy_key_full_path }}"
+    mode: 0600
+  tags: 
+    - provision
+
+# Clean task
+- name: "Clean: Remove sensitive folder at {{ build_sensitive_root_dir }}"
+  file:
+    path: "{{ build_sensitive_root_dir }}"
+    state: absent
+  tags: 
+    - clean
+
+- name: "Clone git repo into {{ git_clone_tmp_dir }}"
+  git:
+    repo: '{{ git_repo }}'
+    dest: '{{ git_clone_tmp_dir }}'
+    version: '{{ git_repo_tag }}'
+    key_file: "{{ build_deploy_key_full_path }}"
+    accept_hostkey: yes
+  tags: 
+    - provision
+
+# Clean task
+- name: "Clean: Remove git clone tmp dir at [{{ git_clone_tmp_dir }}]"
+  file:
+    path: "{{ git_clone_tmp_dir }}"
+    state: absent
+  tags: 
+    - clean
+
+- name: "Ensure {{ build_root_app_dir }} app folder exists."
+  file:
+    path: "{{ build_root_app_dir }}"
+    state: directory
+    mode: 0700
+  tags: 
+    - provision
+
+- name: "Copy dev app folder to proper location"
+  shell: | 
+    cp -rT {{ git_clone_app_tmp_dir }} {{ build_root_app_dir }}
+  tags: 
+    - provision
