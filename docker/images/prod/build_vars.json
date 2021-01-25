@@ -8,6 +8,8 @@
 
     "AYAQA_PROD_APP_ROOT_DIR": "/ayaqa",
 
+    "AYAQA_PROD_SETUP_DIR": "/tmp/ayaqa-setup",
+
     "AYAQA_PROVISION_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/provision-prod.sh",
     "AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/entrypoint-prod.sh"
 }

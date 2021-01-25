@@ -16,7 +16,8 @@
         {
             "type": "shell",
             "inline": [
-                "mkdir --parents {{ user `AYAQA_APP_ROOT_DIR` }}"
+                "mkdir --parents {{ user `AYAQA_APP_ROOT_DIR` }}",
+                "mkdir --parents {{ user `AYAQA_PROD_SETUP_DIR` }}"
             ]
         },
         {
@@ -33,6 +34,11 @@
             "type": "file",
             "source": "{{ user `SHARED_FS_DIR` }}/sensitive/",
             "destination": "{{ user `AYAQA_INFRA_SENSITIVE_DIR` }}"
+        },
+        {
+            "type": "file",
+            "source": "{{ user `BUILD_DIR` }}/static/",
+            "destination": "{{ user `AYAQA_PROD_SETUP_DIR` }}"
         },
         {
             "type": "shell",
@@ -56,7 +62,9 @@
             "environment_vars": [
                 "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}",
                 "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}",
-                "AYAQA_INFRA_PROVISION_DIR={{ user `AYAQA_INFRA_PROVISION_DIR` }}"
+                "AYAQA_INFRA_PROVISION_DIR={{ user `AYAQA_INFRA_PROVISION_DIR` }}",
+                "AYAQA_BOOT_CONFIG_DIR={{ user `AYAQA_PROD_SETUP_DIR` }}",
+                "AYAQA_INFRA_PROVISION_SHARED_DIR={{ user `AYAQA_INFRA_PROVISION_SHARED_DIR` }}"
             ]
         }
     ],

@@ -46,4 +46,4 @@
         - debug_info
 
   roles:
-    - ayaqa-clone
+    - ayaqa-checkout
