@@ -4,9 +4,9 @@
   vars:
     ansible_python_interpreter: /usr/bin/python
     # dirs
-    ayaqa_boot_config_dir: "{{ lookup('env','AYAQA_BOOT_CONFIG_DIR') }}"
-    ayaqa_boot_ssh_config_dir: "{{ ayaqa_boot_config_dir }}/ssh"
-    ayaqa_boot_vhost_config_dir: "{{ ayaqa_boot_config_dir }}/vhosts"
+    AYAQA_INFRA_BOOT_CONFIG_DIR: "{{ lookup('env','AYAQA_INFRA_BOOT_CONFIG_DIR') }}"
+    ayaqa_boot_ssh_config_dir: "{{ AYAQA_INFRA_BOOT_CONFIG_DIR }}/ssh"
+    ayaqa_boot_vhost_config_dir: "{{ AYAQA_INFRA_BOOT_CONFIG_DIR }}/vhosts"
     
     # ssh specific vars
     ayaqa_ssh_container_config_dir: "~/.ssh"
@@ -22,7 +22,7 @@
       debug:
         msg:
           - "----------------- Main vars ---------------------"
-          - "Main provision dir: {{ ayaqa_boot_config_dir }}"
+          - "Main provision dir: {{ AYAQA_INFRA_BOOT_CONFIG_DIR }}"
           - "SSH provision dir: {{ ayaqa_boot_ssh_config_dir }}"
           - "Vhost provision dir: {{ ayaqa_boot_vhost_config_dir }}"
           - "----------------- SSH Vars ----------------------"

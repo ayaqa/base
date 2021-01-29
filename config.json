@@ -15,8 +15,8 @@
             "AYAQA_APP_ENV": "prod",
             "AYAQA_APP_DEBUG": "false",
 
-            "AYAQA_PROJECT_BUILD_STAGE": "prod",
-            "AYAQA_PROJECT_DEBUG": "false"
+            "AYAQA_INFRA_BUILD_STAGE": "prod",
+            "AYAQA_INFRA_DEBUG": "false"
         }
     },
     "AYAQA_PROVISION_VARS": {

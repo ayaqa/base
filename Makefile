@@ -1,8 +1,6 @@
-# Set default values
-####################
 SHELL              := /bin/bash
 BUILD_TAG          ?= NULL
-BUILD_ENABLE_DEBUG ?= false
+BUILD_WITH_DEBUG   ?= false
 IMAGE_NAME         ?= base
 
 RESET_COLOR=$$(tput sgr0)
@@ -16,8 +14,10 @@ ERROR_STRING=$(RED_COLOR)[ERROR]$(RESET_COLOR)
 WARN_STRING=$(YELLOW_COLOR)[WARNING]$(RESET_COLOR)
 INFO_STRING=$(CYAN_COLOR)[INFO]$(RESET_COLOR)
 
+# Local registry host and port
 LOCAL_REGISTRY="localhost:5001"
 
+# Get Current dir
 ROOT_INFRA_DIR=${CURDIR}
 include vars.mk
 
@@ -38,9 +38,10 @@ PACKER_BUILD_VARS_DYNAMIC_FILE_PATH=${IMAGE_BUILD_ROOT_DIR}/${PACKER_BUILD_VARS_
 
 PACKER_BUILD_PROVISION_SCRIPTS_DIR=${IMAGE_BUILD_ROOT_DIR}/scripts
 
-# Configurations parsed.
-PACKER_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_BUILD_VARS.${IMAGE_NAME}" ${SHARED_VARS_FILE_PATH} ${PACKER_VARS_FILE_PATH} ${CONFIG_JSON_GENERATED_FILE_PATH})
-PROVISION_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_PROVISION_VARS.${IMAGE_NAME}" ${SHARED_VARS_FILE_PATH} ${PROVISION_VARS_FILE_PATH} ${CONFIG_JSON_GENERATED_FILE_PATH})
+# Merge all vars from configs
+# Order: static, packer or privision, config (config.json + local if exists), constants.json
+PACKER_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_BUILD_VARS.${IMAGE_NAME} * .[3]" ${SHARED_VARS_FILE_PATH} ${PACKER_VARS_FILE_PATH} ${CONFIG_JSON_GENERATED_FILE_PATH} ${CONSTANTS_FILE_PATH})
+PROVISION_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_PROVISION_VARS.${IMAGE_NAME} * .[3]" ${SHARED_VARS_FILE_PATH} ${PROVISION_VARS_FILE_PATH} ${CONFIG_JSON_GENERATED_FILE_PATH} ${CONSTANTS_FILE_PATH})
 
 .PHONY: help clear build_local pre_build_local compile_configs compile_dynamic_config validate_packer_build
 
@@ -54,8 +55,8 @@ pre_build_local: compile_configs
 compile_dynamic_config: .compile_config_file
 compile_configs: .continue_if_image_dir_is_fine compile_dynamic_config .compile_packer_dynamic_env .compile_provision_dynamic_env
 
-# Helpers
-#########
+# Helpers targets
+#################
 .display_help:
 	@echo "";
 	@echo -e "Usage example:\t make [TASK] [VARIABLES]";
@@ -92,8 +93,8 @@ display_config: .compile_config_file
 		exit 1; \
 	fi;
 
-# Build
-#######
+# Build targets
+################
 .compile_config_file:
 	@echo "${INFO_STRING} Compile config file using static [${CONFIG_JSON_MAIN_FILE_NAME}] and local [${CONFIG_JSON_LOCAL_FILE_NAME}]."
 	@echo "${WARN_STRING} If local config is found, both will be merged and all defined keys from local will override static ones."
@@ -123,7 +124,7 @@ display_config: .compile_config_file
 			-var BUILD_DIR="${IMAGE_BUILD_ROOT_DIR}" \
 			-var SHARED_FS_DIR="${SHARED_FS_DIR}" \
 		$$(if [[ "$(BUILD_TAG)" != "NULL" ]]; then echo "-var AYAQA_PROJECT_NAME=${LOCAL_REGISTRY}/$(IMAGE_NAME)"; echo "-var AYAQA_PROJECT_TAG=$(BUILD_TAG)"; fi;) \
-	    $$(if [[ "$(BUILD_ENABLE_DEBUG)" == "true" ]]; then echo "-var AYAQA_PROJECT_DEBUG=\"true\""; fi;) \
+	    $$(if [[ "$(BUILD_WITH_DEBUG)" == "true" ]]; then echo "-var AYAQA_INFRA_DEBUG=\"true\""; fi;) \
 	    "${PACKER_BUILD_MANIFEST_FILE_PATH}" || exit 1;
 
 .build_local: validate_packer_build
@@ -134,7 +135,7 @@ display_config: .compile_config_file
 			-var BUILD_DIR="${IMAGE_BUILD_ROOT_DIR}" \
 			-var SHARED_FS_DIR="${SHARED_FS_DIR}" \
 		$$(if [[ "$(BUILD_TAG)" != "NULL" ]]; then echo "-var AYAQA_PROJECT_NAME=${LOCAL_REGISTRY}/$(IMAGE_NAME)"; echo "-var AYAQA_PROJECT_TAG=$(BUILD_TAG)"; fi;) \
-	    $$(if [[ "$(BUILD_ENABLE_DEBUG)" == "true" ]]; then echo "-var AYAQA_PROJECT_DEBUG=\"true\""; fi;) \
+	    $$(if [[ "$(BUILD_WITH_DEBUG)" == "true" ]]; then echo "-var AYAQA_INFRA_DEBUG=\"true\""; fi;) \
 			-timestamp-ui \
 	    	"${PACKER_BUILD_MANIFEST_FILE_PATH}" || exit 1;
 

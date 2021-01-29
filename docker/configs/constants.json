@@ -1,0 +1,29 @@
+{
+    "AYAQA_INFRA_DIR": "/opt/ayaqa",
+    "AYAQA_INFRA_LIBS_DIR": "/opt/ayaqa/libs",
+    "AYAQA_INFRA_RUN_FOLDER": "/opt/ayaqa/run",
+
+    "AYAQA_INFRA_SCRIPTS_DIR": "/opt/ayaqa/scripts",
+    "AYAQA_INFRA_SCRIPTS_SHARED_DIR": "/opt/ayaqa/scripts/shared",
+
+    "AYAQA_INFRA_PROVISION_DIR": "/opt/ayaqa/provision",
+    "AYAQA_INFRA_PROVISION_SHARED_DIR": "/opt/ayaqa/provision/shared",
+
+    "AYAQA_INFRA_PERSIST_DIR": "/opt/ayaqa/persist",
+    "AYAQA_INFRA_SENSITIVE_DIR": "/opt/ayaqa/sensitive",
+
+    "AYAQA_INFRA_BOOT_CONFIG_DIR": "/opt/ayaqa/boot_confs",
+    "AYAQA_INFRA_BOOT_SETUP_FILE_PATH": "/opt/ayaqa/boot_confs/setup.sh",
+
+    "AYAQA_INFRA_ENTRYPOINT_FILE_PATH": "/opt/ayaqa/docker-entrypoint.sh",
+
+    "AYAQA_PHP_VERSION": "8.0",
+    "AYAQA_PHP_CONFIG_DIR": "/etc/php/8.0",
+    "AYAQA_PHP_MODULE_CONFIG_DIR": "/etc/php/8.0/mods-available",
+    "AYAQA_PHP_CLI_CONFIG_DIR": "/etc/php/8.0/cli",
+    "AYAQA_PHP_FPM_CONFIG_DIR": "/etc/php/8.0/fpm",
+
+    "AYAQA_ENV_VARS_BASHRC_DIR": "/etc/bashrc.d",
+
+    "AYAQA_APP_ROOT_DIR": "/app"
+}

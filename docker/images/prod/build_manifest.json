@@ -8,7 +8,7 @@
             "changes": [
                 "USER root",
 
-                "ENTRYPOINT {{ user `AYAQA_IMAGE_ENTRYPOINT_FILE_PATH` }}"
+                "ENTRYPOINT {{ user `AYAQA_INFRA_ENTRYPOINT_FILE_PATH` }}"
             ]
         }
     ],
@@ -47,7 +47,7 @@
             ],
             "environment_vars": [
                 "AYAQA_HOSTNAME={{ user `AYAQA_PROJECT_NAME` }}",
-                "AYAQA_PROD_BUILD_STAGE={{ user `AYAQA_PROJECT_BUILD_STAGE` }}",
+                "AYAQA_PROD_BUILD_STAGE={{ user `AYAQA_INFRA_BUILD_STAGE` }}",
                 "AYAQA_PROD_BUILD_CONTAINER_NAME={{ user `AYAQA_PROJECT_NAME` }}",
                 "AYAQA_PROD_BUILD_CONTAINER_TAG={{ user `AYAQA_PROJECT_TAG` }}",
                 "AYAQA_APP_ROOT_DIR={{ user `AYAQA_PROD_APP_ROOT_DIR` }}"
@@ -63,7 +63,7 @@
                 "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}",
                 "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}",
                 "AYAQA_INFRA_PROVISION_DIR={{ user `AYAQA_INFRA_PROVISION_DIR` }}",
-                "AYAQA_BOOT_CONFIG_DIR={{ user `AYAQA_PROD_SETUP_DIR` }}",
+                "AYAQA_INFRA_BOOT_CONFIG_DIR={{ user `AYAQA_PROD_SETUP_DIR` }}",
                 "AYAQA_INFRA_PROVISION_SHARED_DIR={{ user `AYAQA_INFRA_PROVISION_SHARED_DIR` }}"
             ]
         }

@@ -13,7 +13,7 @@
 
                 "EXPOSE {{ user `AYAQA_PHPFPM_PORT` }} {{ user `AYAQA_XDEBUG_PORT` }} {{ user `AYAQA_WEB_PORT` }} {{ user `AYAQA_SECURE_WEB_PORT` }}",
                 
-                "ENTRYPOINT {{ user `AYAQA_IMAGE_ENTRYPOINT_FILE_PATH` }}"
+                "ENTRYPOINT {{ user `AYAQA_INFRA_ENTRYPOINT_FILE_PATH` }}"
             ]
         }
     ],
@@ -43,7 +43,7 @@
             ],
             "environment_vars": [
                 "AYAQA_HOSTNAME={{ user `AYAQA_PROJECT_NAME` }}",
-                "AYAQA_DEV_BUILD_STAGE={{ user `AYAQA_PROJECT_BUILD_STAGE` }}",
+                "AYAQA_DEV_BUILD_STAGE={{ user `AYAQA_INFRA_BUILD_STAGE` }}",
                 "AYAQA_DEV_BUILD_CONTAINER_NAME={{ user `AYAQA_PROJECT_NAME` }}",
                 "AYAQA_DEV_BUILD_CONTAINER_TAG={{ user `AYAQA_PROJECT_TAG` }}",
 
