@@ -19,7 +19,7 @@ LOCAL_REGISTRY="localhost:5001"
 
 # Get Current dir
 ROOT_INFRA_DIR=${CURDIR}
-include vars.mk
+include ${ROOT_INFRA_DIR}/files/vars/make.mk
 
 IMAGE_FORMATTED_FOR_PRINT=$(RED_COLOR)[$(GREEN_COLOR)${IMAGE_NAME}$(RED_COLOR)]$(RESET_COLOR)
 

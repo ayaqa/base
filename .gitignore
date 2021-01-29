@@ -7,5 +7,5 @@ config-generated.json
 build_vars_dynamic.json
 provision_vars_dynamic.json
 
-!docker/sharedfs/sensitive/.gitkeep
-docker/sharedfs/sensitive/*
+!files/sharedfs/sensitive/.gitkeep
+files/sharedfs/sensitive/*
