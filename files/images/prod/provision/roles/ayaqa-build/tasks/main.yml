@@ -9,7 +9,7 @@
 
 - name: "Fail if required dir/file is not found"
   fail: 
-    msg: "Folder {{ item }} is required to build {{ AYAQA_PROJECT_NAME }} image."
+    msg: "Folder {{ item }} is required to build {{ AYAQA_IMAGE_NAME }} image."
   when: item.stat.exists != true
   with_items: "{{ ifexists.results }}"
   tags: 

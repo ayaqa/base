@@ -2,7 +2,7 @@
     "builders": [
         {
             "type": "docker",
-            "image": "{{ user `AYAQA_PROJECT_BI` }}:{{ user `AYAQA_PROJECT_BIT` }}",
+            "image": "{{ user `AYAQA_INFRA_BASE_IMAGE` }}:{{ user `AYAQA_INFRA_BASE_IMAGE_TAG` }}",
             "commit": true,
             "changes": [
                 "USER root",
@@ -83,11 +83,11 @@
                 "{{ user `AYAQA_DUMP_ENV_FILE_PATH` }} 01_base_vars"
             ],
             "environment_vars": [
-                "AYAQA_HOSTNAME={{ user `AYAQA_PROJECT_NAME` }}",
+                "AYAQA_HOSTNAME={{ user `AYAQA_IMAGE_NAME` }}",
                 "AYAQA_APP_ENV={{ user `AYAQA_APP_ENV` }}",
                 "AYAQA_BASE_BUILD_STAGE={{ user `AYAQA_INFRA_BUILD_STAGE` }}",
-                "AYAQA_BASE_BUILD_CONTAINER_NAME={{ user `AYAQA_PROJECT_NAME` }}",
-                "AYAQA_BASE_BUILD_CONTAINER_TAG={{ user `AYAQA_PROJECT_TAG` }}",
+                "AYAQA_BASE_BUILD_CONTAINER_NAME={{ user `AYAQA_IMAGE_NAME` }}",
+                "AYAQA_BASE_BUILD_CONTAINER_TAG={{ user `AYAQA_IMAGE_TAG` }}",
 
                 "AYAQA_INFRA_DIR={{ user `AYAQA_INFRA_DIR` }}",
                 "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}",
@@ -112,8 +112,8 @@
     "post-processors": [
         {
             "type": "docker-tag",
-            "repository": "{{ user `AYAQA_PROJECT_NAME` }}",
-            "tag": "{{ user `AYAQA_PROJECT_TAG` }}"
+            "repository": "{{ user `AYAQA_IMAGE_NAME` }}",
+            "tag": "{{ user `AYAQA_IMAGE_TAG` }}"
         }
     ]
 }

@@ -123,7 +123,7 @@ display_config: .compile_config_file
 			-var-file=${PACKER_BUILD_VARS_DYNAMIC_FILE_PATH} \
 			-var BUILD_DIR="${IMAGE_BUILD_ROOT_DIR}" \
 			-var SHARED_FS_DIR="${SHARED_FS_DIR}" \
-		$$(if [[ "$(BUILD_TAG)" != "NULL" ]]; then echo "-var AYAQA_PROJECT_NAME=${LOCAL_REGISTRY}/$(IMAGE_NAME)"; echo "-var AYAQA_PROJECT_TAG=$(BUILD_TAG)"; fi;) \
+		$$(if [[ "$(BUILD_TAG)" != "NULL" ]]; then echo "-var AYAQA_IMAGE_NAME=${LOCAL_REGISTRY}/$(IMAGE_NAME)"; echo "-var AYAQA_IMAGE_TAG=$(BUILD_TAG)"; fi;) \
 	    $$(if [[ "$(BUILD_WITH_DEBUG)" == "true" ]]; then echo "-var AYAQA_INFRA_DEBUG=\"true\""; fi;) \
 	    "${PACKER_BUILD_MANIFEST_FILE_PATH}" || exit 1;
 
@@ -134,7 +134,7 @@ display_config: .compile_config_file
 			-var-file=${PACKER_BUILD_VARS_DYNAMIC_FILE_PATH} \
 			-var BUILD_DIR="${IMAGE_BUILD_ROOT_DIR}" \
 			-var SHARED_FS_DIR="${SHARED_FS_DIR}" \
-		$$(if [[ "$(BUILD_TAG)" != "NULL" ]]; then echo "-var AYAQA_PROJECT_NAME=${LOCAL_REGISTRY}/$(IMAGE_NAME)"; echo "-var AYAQA_PROJECT_TAG=$(BUILD_TAG)"; fi;) \
+		$$(if [[ "$(BUILD_TAG)" != "NULL" ]]; then echo "-var AYAQA_IMAGE_NAME=${LOCAL_REGISTRY}/$(IMAGE_NAME)"; echo "-var AYAQA_IMAGE_TAG=$(BUILD_TAG)"; fi;) \
 	    $$(if [[ "$(BUILD_WITH_DEBUG)" == "true" ]]; then echo "-var AYAQA_INFRA_DEBUG=\"true\""; fi;) \
 			-timestamp-ui \
 	    	"${PACKER_BUILD_MANIFEST_FILE_PATH}" || exit 1;

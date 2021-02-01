@@ -1,10 +1,10 @@
 {
-    "AYAQA_PROJECT_BI": "ayaqa_dev",
-    "AYAQA_PROJECT_BIT": "latest",
+    "AYAQA_INFRA_BASE_IMAGE": "ayaqa_dev",
+    "AYAQA_INFRA_BASE_IMAGE_TAG": "latest",
 
-    "AYAQA_PROJECT_NAME": "ayaqa",
-    "AYAQA_PROJECT_TAG": "latest",
-    "AYAQA_PROJECT_DIR": "prod",
+    "AYAQA_IMAGE_NAME": "ayaqa",
+    "AYAQA_IMAGE_TAG": "latest",
+    "AYAQA_IMAGE_DIR_NAME": "prod",
 
     "AYAQA_PROD_APP_ROOT_DIR": "/ayaqa",
 

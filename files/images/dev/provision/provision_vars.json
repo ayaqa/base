@@ -1,6 +1,6 @@
 {
-    "AYAQA_PROJECT_NAME": "ayaqa_dev",
-    "AYAQA_PROJECT_TAG": "latest",
+    "AYAQA_IMAGE_NAME": "ayaqa_dev",
+    "AYAQA_IMAGE_TAG": "latest",
 
     "AYAQA_PROVISION_BASH_SCRIPT_PATH": "{{ AYAQA_INFRA_SCRIPTS_DIR }}/provision-dev.sh",
     "AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH": "{{ AYAQA_INFRA_SCRIPTS_DIR }}/entrypoint-dev.sh"

@@ -2,7 +2,7 @@
     "builders": [
         {
             "type": "docker",
-            "image": "{{ user `AYAQA_PROJECT_BI` }}:{{ user `AYAQA_PROJECT_BIT` }}",
+            "image": "{{ user `AYAQA_INFRA_BASE_IMAGE` }}:{{ user `AYAQA_INFRA_BASE_IMAGE_TAG` }}",
             "commit": true,
             "pull": false,
             "changes": [
@@ -42,10 +42,10 @@
                 "touch {{ user `AYAQA_SQLITE_DB_FULL_PATH` }}"
             ],
             "environment_vars": [
-                "AYAQA_HOSTNAME={{ user `AYAQA_PROJECT_NAME` }}",
+                "AYAQA_HOSTNAME={{ user `AYAQA_IMAGE_NAME` }}",
                 "AYAQA_DEV_BUILD_STAGE={{ user `AYAQA_INFRA_BUILD_STAGE` }}",
-                "AYAQA_DEV_BUILD_CONTAINER_NAME={{ user `AYAQA_PROJECT_NAME` }}",
-                "AYAQA_DEV_BUILD_CONTAINER_TAG={{ user `AYAQA_PROJECT_TAG` }}",
+                "AYAQA_DEV_BUILD_CONTAINER_NAME={{ user `AYAQA_IMAGE_NAME` }}",
+                "AYAQA_DEV_BUILD_CONTAINER_TAG={{ user `AYAQA_IMAGE_TAG` }}",
 
                 "AYAQA_SQLITE_DB_PATH={{ user `AYAQA_SQLITE_DB_PATH` }}",
                 "AYAQA_SQLITE_DB_FILE_NAME={{ user `AYAQA_SQLITE_DB_FILE_NAME` }}",
@@ -67,8 +67,8 @@
     "post-processors": [
         {
             "type": "docker-tag",
-            "repository": "{{ user `AYAQA_PROJECT_NAME` }}",
-            "tag": "{{ user `AYAQA_PROJECT_TAG` }}"
+            "repository": "{{ user `AYAQA_IMAGE_NAME` }}",
+            "tag": "{{ user `AYAQA_IMAGE_TAG` }}"
         }
     ]
 }

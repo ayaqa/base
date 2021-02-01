@@ -1,4 +1,4 @@
 {
-    "AYAQA_PROVISION_IMAGE_DIR": "{{ user `AYAQA_INFRA_PROVISION_DIR` }}/{{ user `AYAQA_PROJECT_DIR` }}",
+    "AYAQA_PROVISION_IMAGE_DIR": "{{ user `AYAQA_INFRA_PROVISION_DIR` }}/{{ user `AYAQA_IMAGE_DIR_NAME` }}",
     "AYAQA_DUMP_ENV_FILE_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_SHARED_DIR` }}/dump-env-to-file.sh"    
 }
