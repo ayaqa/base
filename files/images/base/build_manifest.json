@@ -102,10 +102,11 @@
                 "{{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}"
             ],
             "environment_vars": [
-                "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}",
-                "ANSIBLE_ROLES={{ user `AYAQA_INFRA_PROVISION_SHARED_DIR` }}/roles",
+                "AYAQA_INFRA_DEBUG={{ user `AYAQA_INFRA_DEBUG` }}",
                 "AYAQA_RUN_FOLDER={{ user `AYAQA_INFRA_RUN_FOLDER` }}",
-                "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}"
+                "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}",
+                "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}",
+                "ANSIBLE_ROLES={{ user `AYAQA_INFRA_PROVISION_SHARED_DIR` }}/roles"
             ]
         }
     ],

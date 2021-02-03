@@ -8,6 +8,7 @@ set -o pipefail
 export TERM=xterm
 
 . ${AYAQA_INFRA_LIBS_DIR}/liblog.sh
+. ${AYAQA_INFRA_LIBS_DIR}/libutil.sh
 
 # Prevent warning for localhost
 info "Fix localhost warning for ansible."
@@ -20,11 +21,15 @@ sed -i "s;#roles_path    = /etc/ansible/roles;roles_path = /etc/ansible/roles:~/
 
 info "Run provision with ansible"
 # First will run it with debug_info to have all variables before run real provision
-ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/internal.yml
+if [[ $(is_debug) == "true" ]]; then
+    ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/internal.yml
+fi;
 ansible-playbook --tags "provision" ${AYAQA_PROVISION_IMAGE_DIR}/internal.yml
 
 # All external roles for ansible will be executed after interla ones.
-ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/external.yml
+if [[ $(is_debug) == "true" ]]; then
+    ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/external.yml
+fi;
 ansible-playbook --skip-tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/external.yml
 
 info "Fix supervisor pid file location."

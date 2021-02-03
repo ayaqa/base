@@ -29,3 +29,10 @@ function find_full_path()
 }
 
 declare -f -x find_full_path
+
+function is_debug()
+{
+    echo "${AYAQA_INFRA_DEBUG:-false}"
+}
+
+declare -f -x is_debug

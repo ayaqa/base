@@ -45,6 +45,10 @@ PROVISION_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_PROVISION_VARS.${IMAGE_NAME} *
 
 .PHONY: help clear build_local pre_build_local compile_configs compile_dynamic_config validate_packer_build
 
+LOG_FILE_DATE=$(shell date '+%d-%m-%y')
+LOG_FILE_NAME=${IMAGE_NAME}-${LOG_FILE_DATE}.log
+LOG_OUTPUT_PATH=logs/${LOG_FILE_NAME}
+
 # Aliases
 #########
 help: .display_help
@@ -125,10 +129,11 @@ display_config: .compile_config_file
 			-var SHARED_FS_DIR="${SHARED_FS_DIR}" \
 		$$(if [[ "$(BUILD_TAG)" != "NULL" ]]; then echo "-var AYAQA_IMAGE_NAME=${LOCAL_REGISTRY}/$(IMAGE_NAME)"; echo "-var AYAQA_IMAGE_TAG=$(BUILD_TAG)"; fi;) \
 	    $$(if [[ "$(BUILD_WITH_DEBUG)" == "true" ]]; then echo "-var AYAQA_INFRA_DEBUG=\"true\""; fi;) \
-	    "${PACKER_BUILD_MANIFEST_FILE_PATH}" || exit 1;
+	    "${PACKER_BUILD_MANIFEST_FILE_PATH}";
 
 .build_local: validate_packer_build
 	@echo "${INFO_STRING} Packer build for IMAGE_NAME ${IMAGE_FORMATTED_FOR_PRINT} [build local]"
+	@echo "${INFO_STRING} Output for ${IMAGE_FORMATTED_FOR_PRINT} will be saved: ${LOG_OUTPUT_PATH}"
 	@packer build \
 			-var-file=${PACKER_BUILD_VARS_FILE_PATH} \
 			-var-file=${PACKER_BUILD_VARS_DYNAMIC_FILE_PATH} \
@@ -137,7 +142,7 @@ display_config: .compile_config_file
 		$$(if [[ "$(BUILD_TAG)" != "NULL" ]]; then echo "-var AYAQA_IMAGE_NAME=${LOCAL_REGISTRY}/$(IMAGE_NAME)"; echo "-var AYAQA_IMAGE_TAG=$(BUILD_TAG)"; fi;) \
 	    $$(if [[ "$(BUILD_WITH_DEBUG)" == "true" ]]; then echo "-var AYAQA_INFRA_DEBUG=\"true\""; fi;) \
 			-timestamp-ui \
-	    	"${PACKER_BUILD_MANIFEST_FILE_PATH}" || exit 1;
+	    	"${PACKER_BUILD_MANIFEST_FILE_PATH}" | tee ${LOG_OUTPUT_PATH} 2>&1;
 
 .clear_after_build_local:
 	@echo "${INFO_STRING} Clean all dynamic files for ${IMAGE_FORMATTED_FOR_PRINT}."
