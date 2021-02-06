@@ -9,7 +9,7 @@
     "AYAQA_INFRA_PROVISION_DIR": "/opt/ayaqa/provision",
     "AYAQA_INFRA_PROVISION_SHARED_DIR": "/opt/ayaqa/provision/shared",
 
-    "AYAQA_INFRA_PERSIST_DIR": "/opt/ayaqa/persist",
+    "AYAQA_INFRA_VOLUME_DIR": "/opt/ayaqa/volume",
     "AYAQA_INFRA_SENSITIVE_DIR": "/opt/ayaqa/sensitive",
 
     "AYAQA_INFRA_BOOT_CONFIG_DIR": "/opt/ayaqa/boot_confs",
@@ -25,5 +25,6 @@
 
     "AYAQA_ENV_VARS_BASHRC_DIR": "/etc/bashrc.d",
 
-    "AYAQA_APP_ROOT_DIR": "/app"
+    "AYAQA_APP_ROOT_DIR": "/app",
+    "AYAQA_APP_VOLUME_DIR": "/app_volume"
 }

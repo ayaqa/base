@@ -1,5 +1,5 @@
 ---
-  - name: "Ensure sshd is configured."
+  - name: "Ensure sshd is configured"
     include_tasks:
       file: ssh.yml
       apply:
@@ -10,7 +10,7 @@
       - ssh_config
       - provision
 
-  - name: "Ensure vhost is configured."
+  - name: "Ensure vhost is configured"
     include_tasks:
       file: vhost.yml
       apply:
@@ -19,4 +19,15 @@
           - provision
     tags:
       - nginx_vhost
+      - provision
+
+  - name: "Link app if is mounted as volume"
+    include_tasks:
+      file: mount.yml
+      apply:
+        tags: 
+          - app_mount
+          - provision
+    tags:
+      - app_mount
       - provision

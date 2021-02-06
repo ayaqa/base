@@ -1,0 +1,19 @@
+---
+- name: Register stats for volume app
+  find:
+    paths: "{{ ayaqa_app_volume_dir }}"
+  register: stat_app_volume
+
+- name: Ensure {{ ayaqa_app_dir }} doesnt exists
+  file:
+    path: "{{ ayaqa_app_dir }}"
+    state: absent
+  when: stat_app_volume.matched > 0
+
+- name: Link volume app to default app dir
+  file:
+    src: "{{ ayaqa_app_volume_dir }}"
+    dest: "{{ ayaqa_app_dir }}"
+    state: link
+    force: 'yes'
+  when: stat_app_volume.matched > 0

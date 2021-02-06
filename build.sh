@@ -30,7 +30,7 @@ function check_if_image_exists() {
     local IMAGE_NAME=$1
     local IMAGE_TAG=$2
     local IMAGE_BUILD_FOLDER=$3
-    local DEFAULT="n"
+    local DEFAULT="y"
 
     docker image inspect "${IMAGE_NAME}:${IMAGE_TAG}" &>/dev/null
     if [ $? != 0 ]; then
@@ -83,8 +83,8 @@ cd "${BASE_DIR}/" && make compile_configs
 ALL_IMAGES=$(cat ${CONFIG_FILE_PATH} | jq -c '.AYAQA_BUILD_VARS | to_entries | .[]')
 for row in $ALL_IMAGES; do
     IMAGE_FOLDER=$(jq -r '.key' <<< ${row})
-    IMAGE_NAME=$(jq -r '.value | .AYAQA_IMAGE_NAME' <<< ${row})
-    IMAGE_TAG=$(jq -r '.value | .AYAQA_IMAGE_TAG' <<< ${row})
+    IMAGE_NAME=$(jq -r '.value | .AYAQA_INFRA_IMAGE_NAME' <<< ${row})
+    IMAGE_TAG=$(jq -r '.value | .AYAQA_INFRA_IMAGE_TAG' <<< ${row})
 
     check_if_image_exists $IMAGE_NAME $IMAGE_TAG $IMAGE_FOLDER
 done

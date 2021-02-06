@@ -2,9 +2,9 @@
     "AYAQA_INFRA_BASE_IMAGE": "ayaqa_dev",
     "AYAQA_INFRA_BASE_IMAGE_TAG": "latest",
 
-    "AYAQA_IMAGE_NAME": "ayaqa",
-    "AYAQA_IMAGE_TAG": "latest",
-    "AYAQA_IMAGE_DIR_NAME": "prod",
+    "AYAQA_INFRA_IMAGE_NAME": "ayaqa",
+    "AYAQA_INFRA_IMAGE_TAG": "latest",
+    "AYAQA_INFRA_IMAGE_DIR_NAME": "prod",
 
     "AYAQA_PROD_APP_ROOT_DIR": "/ayaqa",
 

@@ -8,23 +8,34 @@ set -o pipefail
 export TERM=xterm
 
 . ${AYAQA_INFRA_LIBS_DIR}/liblog.sh
+. ${AYAQA_INFRA_LIBS_DIR}/libutil.sh
 
 info "Run provision for: php"
-ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/php.yml
+if [[ $(is_debug) == "true" ]]; then
+    ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/php.yml
+fi;
 ansible-playbook --tags "provision" ${AYAQA_PROVISION_IMAGE_DIR}/php.yml
 
 info "Run provision for: phpfpm and nginx"
-ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/phpfpm-nginx.yml
+if [[ $(is_debug) == "true" ]]; then
+    ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/phpfpm-nginx.yml
+fi;
 ansible-playbook --tags "provision" ${AYAQA_PROVISION_IMAGE_DIR}/phpfpm-nginx.yml
 
 info "Run provision for: supervisor"
-ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/supervisor.yml
+if [[ $(is_debug) == "true" ]]; then
+    ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/supervisor.yml
+fi
 ansible-playbook ${AYAQA_PROVISION_IMAGE_DIR}/supervisor.yml
 
 info "Run internal provision"
-ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/internal.yml
+if [[ $(is_debug) == "true" ]]; then
+    ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/internal.yml
+fi;
 ansible-playbook --tags "provision"  ${AYAQA_PROVISION_IMAGE_DIR}/internal.yml
 
 info "Run common provision"
-ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/common.yml
+if [[ $(is_debug) == "true" ]]; then
+    ansible-playbook --tags "debug_info" ${AYAQA_PROVISION_IMAGE_DIR}/common.yml
+fi;
 ansible-playbook --tags "provision"  ${AYAQA_PROVISION_IMAGE_DIR}/common.yml

@@ -3,10 +3,13 @@
   connection: local
   vars:
     ansible_python_interpreter: /usr/bin/python
-    # dirs
+    
+    # dir paths
     AYAQA_INFRA_BOOT_CONFIG_DIR: "{{ lookup('env','AYAQA_INFRA_BOOT_CONFIG_DIR') }}"
     ayaqa_boot_ssh_config_dir: "{{ AYAQA_INFRA_BOOT_CONFIG_DIR }}/ssh"
     ayaqa_boot_vhost_config_dir: "{{ AYAQA_INFRA_BOOT_CONFIG_DIR }}/vhosts"
+    ayaqa_app_volume_dir: "{{ lookup('env', 'AYAQA_APP_VOLUME_DIR') }}"
+    ayaqa_app_dir: "{{ lookup('env', 'AYAQA_APP_ROOT_DIR') }}"
     
     # ssh specific vars
     ayaqa_ssh_container_config_dir: "~/.ssh"

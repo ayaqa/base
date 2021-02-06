@@ -46,10 +46,10 @@
                 "{{ user `AYAQA_DUMP_ENV_FILE_PATH` }} 03_prod_vars"
             ],
             "environment_vars": [
-                "AYAQA_HOSTNAME={{ user `AYAQA_IMAGE_NAME` }}",
+                "AYAQA_HOSTNAME={{ user `AYAQA_INFRA_IMAGE_NAME` }}",
                 "AYAQA_PROD_BUILD_STAGE={{ user `AYAQA_INFRA_BUILD_STAGE` }}",
-                "AYAQA_PROD_BUILD_CONTAINER_NAME={{ user `AYAQA_IMAGE_NAME` }}",
-                "AYAQA_PROD_BUILD_CONTAINER_TAG={{ user `AYAQA_IMAGE_TAG` }}",
+                "AYAQA_PROD_BUILD_CONTAINER_NAME={{ user `AYAQA_INFRA_IMAGE_NAME` }}",
+                "AYAQA_PROD_BUILD_CONTAINER_TAG={{ user `AYAQA_INFRA_IMAGE_TAG` }}",
                 "AYAQA_APP_ROOT_DIR={{ user `AYAQA_PROD_APP_ROOT_DIR` }}"
             ]
         },
@@ -71,8 +71,8 @@
     "post-processors": [
         {
             "type": "docker-tag",
-            "repository": "{{ user `AYAQA_IMAGE_NAME` }}",
-            "tag": "{{ user `AYAQA_IMAGE_TAG` }}"
+            "repository": "{{ user `AYAQA_INFRA_IMAGE_NAME` }}",
+            "tag": "{{ user `AYAQA_INFRA_IMAGE_TAG` }}"
         }
     ]
 }

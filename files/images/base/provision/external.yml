@@ -48,8 +48,8 @@
       debug:
         msg:
           - "----------------- Vars ---------------------"
-          - "Name: {{ AYAQA_IMAGE_NAME }}"
-          - "Tag: {{ AYAQA_IMAGE_TAG }}"
+          - "Name: {{ AYAQA_INFRA_IMAGE_NAME }}"
+          - "Tag: {{ AYAQA_INFRA_IMAGE_TAG }}"
           - "Build Stage: {{ AYAQA_INFRA_BUILD_STAGE }}"
           - "Build Debug: {{ AYAQA_INFRA_DEBUG }}"
           - "App Stage: {{ AYAQA_APP_ENV }}"

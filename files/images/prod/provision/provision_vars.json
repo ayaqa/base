@@ -1,6 +1,6 @@
 {
-    "AYAQA_IMAGE_NAME": "ayaqa",
-    "AYAQA_IMAGE_TAG": "latest",
+    "AYAQA_INFRA_IMAGE_NAME": "ayaqa",
+    "AYAQA_INFRA_IMAGE_TAG": "latest",
 
     "AYAQA_APP_GIT_REPO": "git@github.com:ayaqa/dev.git",
     "AYAQA_APP_GIT_TAG": "main",
