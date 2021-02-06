@@ -1,13 +1,13 @@
 ---
 # FIX for ansible role instaling sshd.
-- name: Ensure /run/sshd is there.
+- name: Ensure /run/sshd dir exists
   file:
     path: /run/sshd
     state: directory
-    mode: '0755'
+    mode: 0755
 
-- name: Ensure /root/.ssh/ is there.
+- name: Ensure /root/.ssh/ dir exists
   file:
     path: /root/.ssh/
     state: directory
-    mode: '07000'
+    mode: 0700

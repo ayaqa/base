@@ -1,16 +1,16 @@
 ---
-- name: "Check if ssh config exists."
+- name: Stat ssh config dir
   stat:
     path: "{{ ayaqa_boot_ssh_config_dir }}"
   register: ssh_config_dir
 
-- name: "Ensure directory is empty before move ssh config."
+- name: Ensure dir is empty before moving ssh configs
   file:
     state: absent
     path: "{{ ayaqa_ssh_container_config_dir }}/"
   when: ayaqa_ssh_flush_dir_before_moving|bool
 
-- name: "Copy files to ssh user config folder."
+- name: Copy files to ssh user config dir
   copy:
     src: "{{ ayaqa_boot_ssh_config_dir }}/"
     dest: "{{ ayaqa_ssh_container_config_dir }}/"

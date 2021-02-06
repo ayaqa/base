@@ -1,20 +1,20 @@
 ---
-- name: "Remove default entry file. (if exists)"
+- name: Ensure default entry file is gone
   file:
     path: "{{ default_entry_file_path }}"
     state: absent
 
-- name: "Ensure entry file have proper file permission"
+- name: Ensure new entry file have proper permissions
   file: 
     dest: "{{ image_entry_file_path }}"
-    mode: "0777"
+    mode: 0777
 
-- name: "Ensure file can be executed as bash script."
+- name: Ensure that file can be executed (+x)
   file:
     dest: "{{ image_entry_file_path }}"
     mode: a+x
 
-- name: "Link current image entry file to container default path."
+- name: Set current image entry file as default for container
   file:
     src: "{{ image_entry_file_path }}"
     dest: "{{ default_entry_file_path }}"
