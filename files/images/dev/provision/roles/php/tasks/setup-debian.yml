@@ -1,10 +1,10 @@
 ---
-- name: Run apt-update with cache
+- name: Update apt cache
   apt:
     update_cache: yes
     cache_valid_time: 86400
 
-- name: Ensure all required packages are installed
+- name: Ensure apt packages are installed
   apt:
     state: present
     install_recommends: no
@@ -13,34 +13,34 @@
       - apt-transport-https
       - ca-certificates
 
-- name: Ensure sury gpg keys exists.
+- name: Ensure sury gpg key is set
   apt_key:
     id: 15058500A0235D97F5D10063B188E2B695BD4743
     url: https://packages.sury.org/php/apt.gpg
     keyring: /etc/apt/trusted.gpg.d/php.gpg
 
-- name: Ensure sury deb package is added.
+- name: Ensure deb package is set
   apt_repository:
     repo: "deb https://packages.sury.org/php/ {{ ansible_distribution_release }} main"
     state: present
     filename: "php.list"
     update_cache: yes
 
-- name: Ensure all required php packages are installed.
+- name: Ensure apt php packages are installed
   apt:
     name: "{{ item }}"
     state: present
     install_recommends: no
   loop: "{{  list_of_php_packages  }}"
 
-- name: Ensure composer is installed.
+- name: Run composer install script
   script: scripts/composer-install.sh
 
-- name: Move Composer globally
+- name: Move composer to usr/bin
   become: true
   command: mv composer.phar /usr/local/bin/composer
 
-- name: Ensure proper permission for Composer.phar
+- name: Ensure composer phar can be executed
   become: true
   file:
     path: /usr/local/bin/composer

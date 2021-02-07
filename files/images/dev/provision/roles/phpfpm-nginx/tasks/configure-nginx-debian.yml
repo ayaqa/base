@@ -1,10 +1,10 @@
 ---
-- name: Create fastcgi snippet
+- name: Configure fastcgi snippet from template
   template:
     src: fastcgi-pass.conf.j2
     dest: "{{ phpfpm_nginx_snippet_fastcgi_file_path }}"
 
-- name: Remove default FPM and Pool configs
+- name: Ensure default config files are gone
   file:
     path: "{{ item }}"
     state: absent
@@ -13,7 +13,7 @@
     - "{{ phpfpm_pool_config_file_path }}"
   tags: php-fpm.init
 
-- name: Ensure config related folders are there.
+- name: Ensure configuration dirs exists
   file:
     path: "{{ item }}"
     state: directory
@@ -23,7 +23,7 @@
     - "{{ phpfpm_fpm_config_pid_path }}"
   tags: php-fpm.init
 
-- name: Configure FPM pools
+- name: Ensure FPM pool is configured
   template:
     src: pool.conf.j2
     dest: "{{ phpfpm_fpm_dir }}/pool.d/{{ pool.name }}.conf"
@@ -36,7 +36,7 @@
     - php-fpm.init
     - php-fpm.pools
 
-- name: Configure FPM
+- name: Enusire FPM is configured
   template:
     src: php-fpm.conf.j2
     dest: "{{ phpfpm_fpm_config_file_path }}"

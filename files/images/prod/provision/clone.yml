@@ -16,7 +16,7 @@
 
     git_clone_app_tmp_dir: '{{ git_clone_tmp_dir }}{{ AYAQA_APP_GIT_ROOT_APP_DIR }}'
 
-    build_root_app_dir: '{{ AYAQA_PROD_APP_ROOT_DIR }}'
+    build_root_app_dir: '{{ AYAQA_APP_ROOT_DIR }}'
     build_sensitive_root_dir: '{{ AYAQA_INFRA_SENSITIVE_DIR }}'
     build_ssh_key_private_name: '{{ AYAQA_DEV_DEPLOY_KEY_BASE_NAME }}'
     build_ssh_key_public_name: '{{ AYAQA_DEV_DEPLOY_KEY_BASE_NAME }}.pub'

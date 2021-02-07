@@ -1,12 +1,12 @@
 ---
-- name: Make {{ phpfpm_run_path }} symlink
+- name: Symlink {{ phpfpm_run_path }} to sbin
   file:
     src: "{{ phpfpm_run_path }}"
     dest: "/usr/sbin/php-fpm"
     state: link
 
-- name: Ensure {{ phpfpm_run_dir }} folder is there
+- name: Ensure php-fpm run dir exists
   file:
     path: "{{ phpfpm_run_dir }}"
     state: directory
-    mode: '0755'
+    mode: 0755

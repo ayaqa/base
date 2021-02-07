@@ -1,4 +1,4 @@
-- name: Install required packages
+- name: Ensure apt packages are installed
   apt:
     name: "{{ item }}"
     state: present

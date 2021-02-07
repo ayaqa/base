@@ -1,10 +1,10 @@
 ---
-- name: Stat xdebug file
+- name: Stat xdebug config file
   stat: 
     path: "{{ php_xdebug_module_config_file }}"
   register: xdebug_file
 
-- name: Ensure xdebug is disabled for cli by default
+- name: Ensure xdebug is disabled for cli
   lineinfile:
     dest: "{{ php_xdebug_module_config_file }}"
     state: present
@@ -12,7 +12,7 @@
     line: ";zend_extension=xdebug.so"
   when: xdebug_file.stat.exists == true
 
-- name: Ensure xdebug is configured properly
+- name: Ensure xdebug is configured
   blockinfile:
     path: "{{ php_xdebug_module_config_file }}"
     block: |

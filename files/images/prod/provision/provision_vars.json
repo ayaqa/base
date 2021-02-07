@@ -8,7 +8,7 @@
     "AYAQA_APP_GIT_BUILD_DIR": "/.build",
     "AYAQA_APP_GIT_CLONE_TMP_DIR": "/tmp/ayaqa-build",
 
-    "AYAQA_PROD_APP_ROOT_DIR": "/ayaqa",
+    "AYAQA_APP_ROOT_DIR": "/ayaqa",
 
     "AYAQA_DEV_DEPLOY_KEY_BASE_NAME": "deploy_ayaqa_dev"
 }

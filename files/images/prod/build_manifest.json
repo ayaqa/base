@@ -50,7 +50,7 @@
                 "AYAQA_PROD_BUILD_STAGE={{ user `AYAQA_INFRA_BUILD_STAGE` }}",
                 "AYAQA_PROD_BUILD_CONTAINER_NAME={{ user `AYAQA_INFRA_IMAGE_NAME` }}",
                 "AYAQA_PROD_BUILD_CONTAINER_TAG={{ user `AYAQA_INFRA_IMAGE_TAG` }}",
-                "AYAQA_APP_ROOT_DIR={{ user `AYAQA_PROD_APP_ROOT_DIR` }}"
+                "AYAQA_APP_ROOT_DIR={{ user `AYAQA_APP_ROOT_DIR` }}"
             ]
         },
         {
