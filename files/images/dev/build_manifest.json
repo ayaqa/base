@@ -7,12 +7,22 @@
             "pull": false,
             "changes": [
                 "USER root",
+
+                "LABEL maintainer=\"angel@manchev.pro\"",
+                "LABEL ayaqa.dev.version=\"{{ user `AYAQA_APP_VERSION` }}\"",
+                "LABEL ayaqa.dev.debug=\"{{ user `AYAQA_INFRA_DEBUG` }}\"",
+                "LABEL ayaqa.dev.stage=\"{{ user `AYAQA_INFRA_BUILD_STAGE` }}\"",
                 
                 "VOLUME {{ user `AYAQA_APP_VOLUME_DIR` }}",
                 "VOLUME {{ user `AYAQA_INFRA_VOLUME_DIR` }}",
 
-                "EXPOSE {{ user `AYAQA_PHPFPM_PORT` }} {{ user `AYAQA_XDEBUG_PORT` }} {{ user `AYAQA_WEB_PORT` }} {{ user `AYAQA_SECURE_WEB_PORT` }}",
-                
+                "EXPOSE {{ user `AYAQA_PHPFPM_PORT` }}",
+                "EXPOSE {{ user `AYAQA_XDEBUG_PORT` }}",
+                "EXPOSE {{ user `AYAQA_WEB_PORT` }}",
+                "EXPOSE {{ user `AYAQA_SECURE_WEB_PORT` }}",
+
+                "ONBUILD RUN date",
+
                 "ENTRYPOINT {{ user `AYAQA_INFRA_ENTRYPOINT_FILE_PATH` }}"
             ]
         }
@@ -32,8 +42,13 @@
         },
         {
             "type": "file",
-            "source": "{{user `BUILD_DIR` }}/scripts/",
+            "source": "{{user `BUILD_DIR` }}/scripts/init/",
             "destination": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}"
+        },
+        {
+            "type": "file",
+            "source": "{{user `BUILD_DIR` }}/scripts/post-init.d/",
+            "destination": "{{ user `AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_POST_INIT` }}"
         },
         {
             "type": "shell",
@@ -49,7 +64,9 @@
 
                 "AYAQA_SQLITE_DB_PATH={{ user `AYAQA_SQLITE_DB_PATH` }}",
                 "AYAQA_SQLITE_DB_FILE_NAME={{ user `AYAQA_SQLITE_DB_FILE_NAME` }}",
-                "AYAQA_SQLITE_DB_FULL_PATH={{ user `AYAQA_SQLITE_DB_FULL_PATH` }}"
+                "AYAQA_SQLITE_DB_FULL_PATH={{ user `AYAQA_SQLITE_DB_FULL_PATH` }}",
+
+                "AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME={{ user `AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME` }}"
             ]
         },
         {

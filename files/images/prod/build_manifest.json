@@ -63,7 +63,7 @@
                 "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}",
                 "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}",
                 "AYAQA_INFRA_PROVISION_DIR={{ user `AYAQA_INFRA_PROVISION_DIR` }}",
-                "AYAQA_INFRA_BOOT_CONFIG_DIR={{ user `AYAQA_PROD_SETUP_DIR` }}",
+                "AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME={{ user `AYAQA_PROD_SETUP_DIR` }}",
                 "AYAQA_INFRA_PROVISION_SHARED_DIR={{ user `AYAQA_INFRA_PROVISION_SHARED_DIR` }}"
             ]
         }

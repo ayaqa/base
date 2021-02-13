@@ -5,6 +5,9 @@
 
     "AYAQA_INFRA_SCRIPTS_DIR": "/opt/ayaqa/scripts",
     "AYAQA_INFRA_SCRIPTS_SHARED_DIR": "/opt/ayaqa/scripts/shared",
+    "AYAQA_DUMP_ENV_FILE_PATH": "/opt/ayaqa/scripts/shared/dump-env-to-file.sh",
+    "AYAQA_ON_BOOT_RUN_USER_SCRIPTS_PATH": "/opt/ayaqa/scripts/shared/on-boot-user-scripts.sh",
+    "AYAQA_ON_BOOT_RUN_POST_INIT_SCRIPTS_PATH": "/opt/ayaqa/scripts/shared/post-init.sh",
 
     "AYAQA_INFRA_PROVISION_DIR": "/opt/ayaqa/provision",
     "AYAQA_INFRA_PROVISION_SHARED_DIR": "/opt/ayaqa/provision/shared",
@@ -12,7 +15,11 @@
     "AYAQA_INFRA_VOLUME_DIR": "/opt/ayaqa/volume",
     "AYAQA_INFRA_SENSITIVE_DIR": "/opt/ayaqa/sensitive",
 
-    "AYAQA_INFRA_BOOT_CONFIG_DIR": "/opt/ayaqa/boot_confs",
+    "AYAQA_INFRA_ON_BOOT_DIR": "/opt/ayaqa-boot",
+    "AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME": "/opt/ayaqa-boot/init.d",
+    "AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_POST_INIT": "/opt/ayaqa-boot/post-init.d",
+    "AYAQA_INFRA_ON_BOOT_CONFS_VOLUME": "/opt/ayaqa-boot/confs",
+
     "AYAQA_INFRA_BOOT_SETUP_FILE_PATH": "/opt/ayaqa/boot_confs/setup.sh",
 
     "AYAQA_INFRA_ENTRYPOINT_FILE_PATH": "/opt/ayaqa/docker-entrypoint.sh",

@@ -6,12 +6,21 @@
             "commit": true,
             "changes": [
                 "USER root",
+
+                "LABEL maintainer=\"angel@manchev.pro\"",
+                "LABEL ayaqa.base.version=\"{{ user `AYAQA_APP_VERSION` }}\"",
+                "LABEL ayaqa.base.debug=\"{{ user `AYAQA_INFRA_DEBUG` }}\"",
+                "LABEL ayaqa.base.stage=\"{{ user `AYAQA_INFRA_BUILD_STAGE` }}\"",
                 
                 "ENV AYAQA_DEBUG {{ user `AYAQA_INFRA_DEBUG` }}",
                 "ENV AYAQA_APP_DEBUG {{ user `AYAQA_APP_DEBUG` }}",
                 
                 "EXPOSE {{ user `AYAQA_SSH_PORT` }}",
-                "VOLUME {{ user `AYAQA_INFRA_BOOT_CONFIG_DIR` }}",
+
+                "ONBUILD RUN date",
+
+                "VOLUME {{ user `AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME` }}",
+                "VOLUME {{ user `AYAQA_INFRA_ON_BOOT_CONFS_VOLUME` }}",
                 
                 "ENTRYPOINT {{ user `AYAQA_INFRA_ENTRYPOINT_FILE_PATH` }}"
             ]
@@ -40,7 +49,9 @@
                 "mkdir --parents {{ user `AYAQA_INFRA_PROVISION_SHARED_DIR` }}",
                 "mkdir --parents {{ user `AYAQA_INFRA_RUN_FOLDER` }}",
                 "mkdir --parents {{ user `AYAQA_INFRA_SCRIPTS_SHARED_DIR` }}",
-                "mkdir --parents {{ user `AYAQA_ENV_VARS_BASHRC_DIR` }}"
+                "mkdir --parents {{ user `AYAQA_ENV_VARS_BASHRC_DIR` }}",
+                "mkdir --parents {{ user `AYAQA_INFRA_ON_BOOT_DIR` }}",
+                "mkdir --parents {{ user `AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_POST_INIT` }}"
             ]
         },
         {
@@ -73,8 +84,13 @@
         },
         {
             "type": "file",
-            "source": "{{user `BUILD_DIR` }}/scripts/",
+            "source": "{{user `BUILD_DIR` }}/scripts/init/",
             "destination": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}"
+        },
+        {
+            "type": "file",
+            "source": "{{user `BUILD_DIR` }}/scripts/post-init.d/",
+            "destination": "{{ user `AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_POST_INIT` }}"
         },
         {
             "type": "shell",
@@ -91,7 +107,7 @@
 
                 "AYAQA_INFRA_DIR={{ user `AYAQA_INFRA_DIR` }}",
                 "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}",
-                "AYAQA_INFRA_BOOT_CONFIG_DIR={{ user `AYAQA_INFRA_BOOT_CONFIG_DIR` }}",
+                "AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME={{ user `AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME` }}",
                 "AYAQA_INFRA_BOOT_SETUP_FILE_PATH={{ user `AYAQA_INFRA_BOOT_SETUP_FILE_PATH` }}"
             ]
         },

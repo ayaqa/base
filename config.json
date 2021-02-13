@@ -2,15 +2,18 @@
     "AYAQA_BUILD_VARS": {
         "base": {
             "AYAQA_INFRA_IMAGE_NAME": "ayaqa_base",
-            "AYAQA_INFRA_IMAGE_TAG": "latest"
+            "AYAQA_INFRA_IMAGE_TAG": "latest",
+            "AYAQA_APP_VERSION": "0.0.1"
         },
         "dev": {
             "AYAQA_INFRA_IMAGE_NAME": "ayaqa_dev",
-            "AYAQA_INFRA_IMAGE_TAG": "latest"
+            "AYAQA_INFRA_IMAGE_TAG": "latest",
+            "AYAQA_APP_VERSION": "0.0.1"
         },
         "prod": {
             "AYAQA_INFRA_IMAGE_NAME": "ayaqa",
             "AYAQA_INFRA_IMAGE_TAG": "latest",
+            "AYAQA_APP_VERSION": "0.0.1",
             
             "AYAQA_APP_ENV": "prod",
             "AYAQA_APP_DEBUG": "false",
