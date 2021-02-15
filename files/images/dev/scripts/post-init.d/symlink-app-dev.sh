@@ -12,5 +12,5 @@ if [[ $(is_debug) == "true" ]]; then
     ansible-playbook --tags "debug_info" ${AYAQA_INFRA_PROVISION_SHARED_DIR}/provision.yml
 fi;
 
-info "Run ansible: NGINX Vhosts if provided (via volume mount)"
-ansible-playbook --tags "nginx_vhost" ${AYAQA_INFRA_PROVISION_SHARED_DIR}/provision.yml
+info "Run ansible: /app_mount to /app if volume is mapped (dev env)"
+ansible-playbook --tags "app_mount" ${AYAQA_INFRA_PROVISION_SHARED_DIR}/provision.yml
