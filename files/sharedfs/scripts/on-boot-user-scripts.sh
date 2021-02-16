@@ -8,7 +8,7 @@ set -o pipefail
 
 USER_SCRIPTS_FILE_PATH=${AYAQA_INFRA_DIR}/.user_scripts_initialized
 if [[ ! -f "${USER_SCRIPTS_FILE_PATH}" && -d "${AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME}" ]]; then
-    read -r -a init_scripts <<< "$(find "${AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME}" -name "*.sh" -type f -print0 | xargs -0)"
+    read -r -a init_scripts <<< "$(find "${AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME}" -name "*.sh" -type f -print0 | sort -z | xargs -0)"
     if [[ "${#init_scripts[@]}" -gt 0 ]] && [[ ! -f "${USER_SCRIPTS_FILE_PATH}" ]]; then
         warn "** Ensure scripts are executable **"
         find "${AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME}" -name "*.sh" -print -exec chmod u+x {} +

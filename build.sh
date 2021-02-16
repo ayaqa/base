@@ -88,5 +88,5 @@ for row in $ALL_IMAGES; do
 
     check_if_image_exists $IMAGE_NAME $IMAGE_TAG $IMAGE_FOLDER
 done
-make clear_after_build_local
+make clear
 cd -

@@ -7,7 +7,7 @@ BASE_DIR=$(realpath "${CURRENT_DIR}/../..")
 CONFIG_FILE_PATH="${BASE_DIR}/config-generated.json"
 
 # All below are depending on BASE_DIR to be proerly set.
-FILES_DIR="${BASE_DIR}/docker"
+FILES_DIR="${BASE_DIR}/files"
 SHAREDFS_DIR="${FILES_DIR}/sharedfs"
 LIBS_DIR="${SHAREDFS_DIR}/libs"
 

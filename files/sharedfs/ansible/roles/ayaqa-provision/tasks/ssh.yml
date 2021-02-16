@@ -15,4 +15,4 @@
     src: "{{ ayaqa_boot_ssh_config_dir }}/"
     dest: "{{ ayaqa_ssh_container_config_dir }}/"
     force: no
-  when: ssh_config_dir.stat.isdir
+  when: ssh_config_dir.stat.exists and ssh_config_dir.stat.isdir

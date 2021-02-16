@@ -31,3 +31,12 @@
     tags:
       - app_mount
       - provision
+
+  - name: Include clean tasks
+    include_tasks:
+      file: clean.yml
+      apply:
+        tags: 
+          - clean
+    tags:
+      - clean

@@ -29,7 +29,9 @@
         "dev": {},
         "prod": {
             "AYAQA_APP_ENV": "prod",
-            "AYAQA_APP_DEBUG": "false"
+            "AYAQA_APP_DEBUG": "false",
+            "AYAQA_APP_GIT_REPO": "git@github.com:ayaqa/dev.git",
+            "AYAQA_APP_GIT_TAG": "refactoring"
         }
     }
 }

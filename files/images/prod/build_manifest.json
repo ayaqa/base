@@ -8,6 +8,13 @@
             "changes": [
                 "USER root",
 
+                "LABEL maintainer=\"angel@manchev.pro\"",
+                "LABEL ayaqa.dev.version=\"{{ user `AYAQA_APP_VERSION` }}\"",
+                "LABEL ayaqa.dev.debug=\"{{ user `AYAQA_INFRA_DEBUG` }}\"",
+                "LABEL ayaqa.dev.stage=\"{{ user `AYAQA_INFRA_BUILD_STAGE` }}\"",
+
+                "ONBUILD RUN date",
+
                 "ENTRYPOINT {{ user `AYAQA_INFRA_ENTRYPOINT_FILE_PATH` }}"
             ]
         }
@@ -17,7 +24,7 @@
             "type": "shell",
             "inline": [
                 "mkdir --parents {{ user `AYAQA_APP_ROOT_DIR` }}",
-                "mkdir --parents {{ user `AYAQA_PROD_SETUP_DIR` }}"
+                "mkdir --parents {{ user `AYAQA_INFRA_PROD_CONFIGURE_DIR` }}"
             ]
         },
         {
@@ -27,8 +34,13 @@
         },
         {
             "type": "file",
-            "source": "{{user `BUILD_DIR` }}/scripts/",
+            "source": "{{user `BUILD_DIR` }}/scripts/init/",
             "destination": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}"
+        },
+        {
+            "type": "file",
+            "source": "{{user `BUILD_DIR` }}/scripts/post-init.d/",
+            "destination": "{{ user `AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_POST_INIT` }}"
         },
         {
             "type": "file",
@@ -37,8 +49,8 @@
         },
         {
             "type": "file",
-            "source": "{{ user `BUILD_DIR` }}/static/",
-            "destination": "{{ user `AYAQA_PROD_SETUP_DIR` }}"
+            "source": "{{ user `BUILD_DIR` }}/staticfs/",
+            "destination": "{{ user `AYAQA_INFRA_PROD_CONFIGURE_DIR` }}"
         },
         {
             "type": "shell",
@@ -63,7 +75,7 @@
                 "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}",
                 "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}",
                 "AYAQA_INFRA_PROVISION_DIR={{ user `AYAQA_INFRA_PROVISION_DIR` }}",
-                "AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME={{ user `AYAQA_PROD_SETUP_DIR` }}",
+                "AYAQA_INFRA_ON_BOOT_CONFS_VOLUME={{ user `AYAQA_INFRA_PROD_CONFIGURE_DIR` }}",
                 "AYAQA_INFRA_PROVISION_SHARED_DIR={{ user `AYAQA_INFRA_PROVISION_SHARED_DIR` }}"
             ]
         }

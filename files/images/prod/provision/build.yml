@@ -16,6 +16,7 @@
     build_root_app_dir: '{{ AYAQA_APP_ROOT_DIR }}'
     git_clone_tmp_dir: '{{ AYAQA_APP_GIT_CLONE_TMP_DIR }}'
 
+    # build dir relative path from dev repo
     build_tmp_dir: '{{ git_clone_tmp_dir }}{{ AYAQA_APP_GIT_BUILD_DIR }}'
     
     build_install_script_name: 'app_install.sh'

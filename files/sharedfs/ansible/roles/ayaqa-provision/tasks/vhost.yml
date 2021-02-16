@@ -14,4 +14,4 @@
       src: "{{ ayaqa_boot_vhost_config_dir }}/"
       dest: "{{ ayaqa_vhost_container_config_enabled_dir }}"
       force: no
-    when: vhost_config_dir.stat.isdir
+    when: vhost_config_dir.stat.exists and vhost_config_dir.stat.isdir
