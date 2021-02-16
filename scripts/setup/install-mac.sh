@@ -5,8 +5,8 @@ CURRENT_DIR=$(dirname "$0")
 BASE_DIR="${CURRENT_DIR}/../.."
 
 # All below are depending on BASE_DIR to be proerly set.
-DOCKER_DIR="${BASE_DIR}/docker"
-SHAREDFS_DIR="${DOCKER_DIR}/sharedfs"
+FILES_DIR="${BASE_DIR}/docker"
+SHAREDFS_DIR="${FILES_DIR}/sharedfs"
 LIBS_DIR="${SHAREDFS_DIR}/libs"
 
 # Load liblog.sh

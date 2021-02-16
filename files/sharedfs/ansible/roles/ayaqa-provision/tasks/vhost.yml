@@ -1,0 +1,17 @@
+---
+  - name: Stat for vhost config dir
+    stat:
+      path: "{{ ayaqa_boot_vhost_config_dir }}"
+    register: vhost_config_dir
+
+  - name: Ensure default vhost file is removed
+    file:
+      path: "{{ ayaqa_vhost_container_config_enabled_dir }}/default"
+      state: absent
+
+  - name: Copy vhosts to NGINX dir
+    copy:
+      src: "{{ ayaqa_boot_vhost_config_dir }}/"
+      dest: "{{ ayaqa_vhost_container_config_enabled_dir }}"
+      force: no
+    when: vhost_config_dir.stat.exists and vhost_config_dir.stat.isdir

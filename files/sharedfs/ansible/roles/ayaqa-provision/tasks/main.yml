@@ -1,0 +1,42 @@
+---
+  - name: Include ssh related tasks
+    include_tasks:
+      file: ssh.yml
+      apply:
+        tags: 
+          - ssh_config
+          - provision
+    tags:
+      - ssh_config
+      - provision
+
+  - name: Include vhost related tasks
+    include_tasks:
+      file: vhost.yml
+      apply:
+        tags: 
+          - nginx_vhost
+          - provision
+    tags:
+      - nginx_vhost
+      - provision
+
+  - name: Include mount (volume) tasks
+    include_tasks:
+      file: mount.yml
+      apply:
+        tags: 
+          - app_mount
+          - provision
+    tags:
+      - app_mount
+      - provision
+
+  - name: Include clean tasks
+    include_tasks:
+      file: clean.yml
+      apply:
+        tags: 
+          - clean
+    tags:
+      - clean

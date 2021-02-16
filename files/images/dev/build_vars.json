@@ -1,0 +1,15 @@
+{
+    "AYAQA_INFRA_BASE_IMAGE": "ayaqa_base",
+    "AYAQA_INFRA_BASE_IMAGE_TAG": "latest",
+
+    "AYAQA_INFRA_IMAGE_NAME": "ayaqa_dev",
+    "AYAQA_INFRA_IMAGE_TAG": "latest",
+    "AYAQA_INFRA_IMAGE_DIR_NAME": "dev",
+
+    "AYAQA_SQLITE_DB_PATH": "{{ user `AYAQA_INFRA_VOLUME_DIR` }}/db",
+    "AYAQA_SQLITE_DB_FILE_NAME": "ayaqa.sqlite",
+    "AYAQA_SQLITE_DB_FULL_PATH": "{{ user `AYAQA_SQLITE_DB_PATH` }}/{{ user `AYAQA_SQLITE_DB_FILE_NAME` }}",
+
+    "AYAQA_PROVISION_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/provision-dev.sh",
+    "AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/entrypoint-dev.sh"
+}

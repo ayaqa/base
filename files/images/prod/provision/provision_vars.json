@@ -1,0 +1,15 @@
+{
+    "AYAQA_INFRA_IMAGE_NAME": "ayaqa",
+    "AYAQA_INFRA_IMAGE_TAG": "latest",
+
+    "AYAQA_APP_GIT_REPO": "git@github.com:ayaqa/dev.git",
+    "AYAQA_APP_GIT_TAG": "main",
+    "AYAQA_APP_GIT_ROOT_APP_DIR": "/app",
+    "AYAQA_APP_GIT_BUILD_DIR": "/.build",
+    "AYAQA_APP_GIT_CLONE_TMP_DIR": "/tmp/ayaqa-build",
+
+    "AYAQA_DEV_DEPLOY_KEY_BASE_NAME": "deploy_ayaqa_dev",
+
+    "AYAQA_PROVISION_BASH_SCRIPT_PATH": "{{ AYAQA_INFRA_SCRIPTS_DIR }}/provision-prod.sh",
+    "AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH": "{{ AYAQA_INFRA_SCRIPTS_DIR }}/entrypoint-prod.sh"
+}

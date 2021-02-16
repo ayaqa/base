@@ -1,0 +1,13 @@
+- name: Ensure apt packages are installed
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+  loop: "{{  list_of_packages  }}"
+
+- name: Ensure apt php packages are installed
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+  loop: "{{  list_of_php_packages  }}"

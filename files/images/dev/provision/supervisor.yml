@@ -1,0 +1,55 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - "./provision_vars.json"
+    - "./provision_vars_dynamic.json"
+
+  vars:
+    ansible_python_interpreter: /usr/bin/python
+    phpfpm_run_dir: "{{ AYAQA_INFRA_RUN_FOLDER }}/php"
+    php_fpm_pid_file_path: "{{ phpfpm_run_dir }}/php-fpm.pid"
+    php_fpm_config_file_path: "{{ AYAQA_PHP_FPM_CONFIG_DIR }}/php-fpm.conf"
+    supervisor_programs:
+      - name: 'phpfpm'
+        command: /usr/sbin/php-fpm -F --pid {{ php_fpm_pid_file_path }} -y {{ php_fpm_config_file_path }}
+        state: present
+        configuration: |
+          priority=5
+          numprocs=1
+          autostart=true
+          autorestart=true
+          stdout_logfile=/dev/stdout
+          stderr_logfile=/dev/stdout
+          stdout_logfile_maxbytes=0
+          stderr_logfile_maxbytes=0
+      - name: 'nginx'
+        command: /usr/sbin/nginx -g "daemon off;"
+        state: present
+        configuration: |
+          priority=10
+          numprocs=1
+          autostart=true
+          autorestart=true
+          stdout_logfile=/dev/stdout
+          stderr_logfile=/dev/stdout
+          stdout_logfile_maxbytes=0
+          stderr_logfile_maxbytes=0
+
+  tasks:
+    - name: "DEBUG: Dump variables."
+      debug:
+        msg:
+          - "----------------- Vars ---------------------"
+          - "Name: {{ AYAQA_INFRA_IMAGE_NAME }}"
+          - "Tag: {{ AYAQA_INFRA_IMAGE_TAG }}"
+          - "Build Stage: {{ AYAQA_INFRA_BUILD_STAGE }}"
+          - "Build Debug: {{ AYAQA_INFRA_DEBUG }}"
+          - "App Stage: {{ AYAQA_APP_ENV }}"
+          - "App Debug: {{ AYAQA_APP_DEBUG }}"
+          - "----------------- END ---------------------"
+      tags: debug_info
+      
+  roles:
+    - role: geerlingguy.pip
+    - role: geerlingguy.supervisor

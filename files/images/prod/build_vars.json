@@ -1,0 +1,11 @@
+{
+    "AYAQA_INFRA_BASE_IMAGE": "ayaqa_dev",
+    "AYAQA_INFRA_BASE_IMAGE_TAG": "latest",
+
+    "AYAQA_INFRA_IMAGE_NAME": "ayaqa",
+    "AYAQA_INFRA_IMAGE_TAG": "latest",
+    "AYAQA_INFRA_IMAGE_DIR_NAME": "prod",
+
+    "AYAQA_PROVISION_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/provision-prod.sh",
+    "AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/entrypoint-prod.sh"
+}

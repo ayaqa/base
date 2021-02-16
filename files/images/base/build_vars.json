@@ -1,0 +1,10 @@
+{
+    "AYAQA_INFRA_BASE_IMAGE": "debian",
+    "AYAQA_INFRA_BASE_IMAGE_TAG": "buster-slim",
+    "AYAQA_INFRA_IMAGE_NAME": "ayaqa_base",
+    "AYAQA_INFRA_IMAGE_TAG": "latest",
+    "AYAQA_INFRA_IMAGE_DIR_NAME": "base",
+
+    "AYAQA_PROVISION_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/provision-base.sh",
+    "AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}/entrypoint-base.sh"
+}

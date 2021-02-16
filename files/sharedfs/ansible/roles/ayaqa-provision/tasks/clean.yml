@@ -1,0 +1,15 @@
+---
+- name: Ensure {{ ayaqa_boot_ssh_config_dir }} is deleted
+  file:
+    path: "{{ ayaqa_boot_ssh_config_dir }}"
+    state: absent
+
+- name: Ensure {{ ayaqa_boot_vhost_config_dir }} is deleted
+  file:
+    path: "{{ ayaqa_boot_vhost_config_dir }}"
+    state: absent
+
+- name: Ensure {{ AYAQA_INFRA_ON_BOOT_CONFS_VOLUME }} is deleted
+  file:
+    path: "{{ AYAQA_INFRA_ON_BOOT_CONFS_VOLUME }}"
+    state: absent

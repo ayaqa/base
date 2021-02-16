@@ -1,0 +1,91 @@
+{
+    "builders": [
+        {
+            "type": "docker",
+            "image": "{{ user `AYAQA_INFRA_BASE_IMAGE` }}:{{ user `AYAQA_INFRA_BASE_IMAGE_TAG` }}",
+            "commit": true,
+            "pull": false,
+            "changes": [
+                "USER root",
+
+                "LABEL maintainer=\"angel@manchev.pro\"",
+                "LABEL ayaqa.dev.version=\"{{ user `AYAQA_APP_VERSION` }}\"",
+                "LABEL ayaqa.dev.debug=\"{{ user `AYAQA_INFRA_DEBUG` }}\"",
+                "LABEL ayaqa.dev.stage=\"{{ user `AYAQA_INFRA_BUILD_STAGE` }}\"",
+                
+                "VOLUME {{ user `AYAQA_APP_VOLUME_DIR` }}",
+                "VOLUME {{ user `AYAQA_INFRA_VOLUME_DIR` }}",
+
+                "EXPOSE {{ user `AYAQA_PHPFPM_PORT` }}",
+                "EXPOSE {{ user `AYAQA_XDEBUG_PORT` }}",
+                "EXPOSE {{ user `AYAQA_WEB_PORT` }}",
+                "EXPOSE {{ user `AYAQA_SECURE_WEB_PORT` }}",
+
+                "ONBUILD RUN date",
+
+                "ENTRYPOINT {{ user `AYAQA_INFRA_ENTRYPOINT_FILE_PATH` }}"
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "mkdir --parents {{ user `AYAQA_APP_VOLUME_DIR` }}",
+                "mkdir --parents {{ user `AYAQA_SQLITE_DB_PATH` }}"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "{{ user `BUILD_DIR`}}/provision/",
+            "destination": "{{ user `AYAQA_PROVISION_IMAGE_DIR` }}"
+        },
+        {
+            "type": "file",
+            "source": "{{user `BUILD_DIR` }}/scripts/init/",
+            "destination": "{{ user `AYAQA_INFRA_SCRIPTS_DIR` }}"
+        },
+        {
+            "type": "file",
+            "source": "{{user `BUILD_DIR` }}/scripts/post-init.d/",
+            "destination": "{{ user `AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_POST_INIT` }}"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "{{ user `AYAQA_DUMP_ENV_FILE_PATH` }} 02_dev_vars",
+                "touch {{ user `AYAQA_SQLITE_DB_FULL_PATH` }}"
+            ],
+            "environment_vars": [
+                "AYAQA_HOSTNAME={{ user `AYAQA_INFRA_IMAGE_NAME` }}",
+                "AYAQA_DEV_BUILD_STAGE={{ user `AYAQA_INFRA_BUILD_STAGE` }}",
+                "AYAQA_DEV_BUILD_CONTAINER_NAME={{ user `AYAQA_INFRA_IMAGE_NAME` }}",
+                "AYAQA_DEV_BUILD_CONTAINER_TAG={{ user `AYAQA_INFRA_IMAGE_TAG` }}",
+
+                "AYAQA_SQLITE_DB_PATH={{ user `AYAQA_SQLITE_DB_PATH` }}",
+                "AYAQA_SQLITE_DB_FILE_NAME={{ user `AYAQA_SQLITE_DB_FILE_NAME` }}",
+                "AYAQA_SQLITE_DB_FULL_PATH={{ user `AYAQA_SQLITE_DB_FULL_PATH` }}",
+
+                "AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME={{ user `AYAQA_INFRA_ON_BOOT_BASH_SCRIPTS_VOLUME` }}"
+            ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "chmod 700 {{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}",
+                "{{ user `AYAQA_PROVISION_BASH_SCRIPT_PATH` }}"
+            ],
+            "environment_vars": [
+                "AYAQA_PROVISION_IMAGE_DIR={{ user `AYAQA_PROVISION_IMAGE_DIR` }}",
+                "AYAQA_INFRA_LIBS_DIR={{ user `AYAQA_INFRA_LIBS_DIR` }}"
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "docker-tag",
+            "repository": "{{ user `AYAQA_INFRA_IMAGE_NAME` }}",
+            "tag": "{{ user `AYAQA_INFRA_IMAGE_TAG` }}"
+        }
+    ]
+}

@@ -1,0 +1,28 @@
+---
+- name: Stat xdebug config file
+  stat: 
+    path: "{{ php_xdebug_module_config_file }}"
+  register: xdebug_file
+
+- name: Ensure xdebug is disabled for cli
+  lineinfile:
+    dest: "{{ php_xdebug_module_config_file }}"
+    state: present
+    regexp: "^zend_extension=xdebug.so" 
+    line: ";zend_extension=xdebug.so"
+  when: xdebug_file.stat.exists == true
+
+- name: Ensure xdebug is configured
+  blockinfile:
+    path: "{{ php_xdebug_module_config_file }}"
+    block: |
+      xdebug.remote_enable = on
+      xdebug.remote_autostart = on
+      xdebug.remote_connect_back = off
+      xdebug.remote_port = {{ AYAQA_XDEBUG_PORT }}
+      xdebug.remote_host = 127.0.0.1
+      xdebug.idekey = "PHPSTORM"
+      
+      # Uncomment it if any issues with connecting
+      # xdebug.remote_log="/dev/stdout"
+  when: xdebug_file.stat.exists == true

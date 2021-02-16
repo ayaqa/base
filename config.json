@@ -1,22 +1,25 @@
 {
     "AYAQA_BUILD_VARS": {
         "base": {
-            "AYAQA_PROJECT_NAME": "ayaqa_base",
-            "AYAQA_PROJECT_TAG": "latest"
+            "AYAQA_INFRA_IMAGE_NAME": "ayaqa_base",
+            "AYAQA_INFRA_IMAGE_TAG": "latest",
+            "AYAQA_APP_VERSION": "0.0.1"
         },
         "dev": {
-            "AYAQA_PROJECT_NAME": "ayaqa_dev",
-            "AYAQA_PROJECT_TAG": "latest"
+            "AYAQA_INFRA_IMAGE_NAME": "ayaqa_dev",
+            "AYAQA_INFRA_IMAGE_TAG": "latest",
+            "AYAQA_APP_VERSION": "0.0.1"
         },
         "prod": {
-            "AYAQA_PROJECT_NAME": "ayaqa",
-            "AYAQA_PROJECT_TAG": "latest",
+            "AYAQA_INFRA_IMAGE_NAME": "ayaqa",
+            "AYAQA_INFRA_IMAGE_TAG": "latest",
+            "AYAQA_APP_VERSION": "0.0.1",
             
             "AYAQA_APP_ENV": "prod",
             "AYAQA_APP_DEBUG": "false",
 
-            "AYAQA_PROJECT_BUILD_STAGE": "prod",
-            "AYAQA_PROJECT_DEBUG": "false"
+            "AYAQA_INFRA_BUILD_STAGE": "prod",
+            "AYAQA_INFRA_DEBUG": "false"
         }
     },
     "AYAQA_PROVISION_VARS": {
@@ -26,7 +29,9 @@
         "dev": {},
         "prod": {
             "AYAQA_APP_ENV": "prod",
-            "AYAQA_APP_DEBUG": "false"
+            "AYAQA_APP_DEBUG": "false",
+            "AYAQA_APP_GIT_REPO": "git@github.com:ayaqa/dev.git",
+            "AYAQA_APP_GIT_TAG": "refactoring"
         }
     }
 }

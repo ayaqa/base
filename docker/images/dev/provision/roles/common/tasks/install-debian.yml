@@ -1,6 +1,0 @@
-- name: Install required packages
-  apt:
-    name: "{{ item }}"
-    state: present
-    install_recommends: no
-  loop: "{{  list_of_packages  }}"

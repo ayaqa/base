@@ -1,0 +1,54 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - "./provision_vars.json"
+    - "./provision_vars_dynamic.json"
+  vars:
+    ansible_python_interpreter: /usr/bin/python
+    timezone: "{{ AYAQA_CONTAINER_TZ }}"
+    list_of_packages: [
+      "curl",
+      "nano",
+      "locate",
+      "git",
+      "locales",
+      "iputils-ping",
+      "htop",
+      "zip",
+      "unzip",
+      "wget"
+    ]
+    image_entry_file_path: "{{ AYAQA_ENTRYPOINT_BASH_SCRIPT_PATH }}"
+    default_entry_file_path: "{{ AYAQA_INFRA_ENTRYPOINT_FILE_PATH }}"
+    default_linux_envs_file_name: 00_linux_vars.sh
+    default_linux_envs: |
+      DEBIAN_FRONTEND=noninteractive
+      TERM=xterm
+
+    bashd_folder_path: "{{ AYAQA_ENV_VARS_BASHRC_DIR }}"
+    bashrc_file_path: "~/.bashrc"
+
+  tasks:
+    - name: "DEBUG: Dump variables."
+      debug:
+        msg:
+          - "----------------- Vars ---------------------"
+          - "Name: {{ AYAQA_INFRA_IMAGE_NAME }}"
+          - "Tag: {{ AYAQA_INFRA_IMAGE_TAG }}"
+          - "Build Stage: {{ AYAQA_INFRA_BUILD_STAGE }}"
+          - "Build Debug: {{ AYAQA_INFRA_DEBUG }}"
+          - "App Stage: {{ AYAQA_APP_ENV }}"
+          - "App Debug: {{ AYAQA_APP_DEBUG }}"
+          - "----------------- ### ---------------------"
+          - "Timezone: {{ timezone }}"
+          - "Apt packages: {{ list_of_packages | join(', ') }}"
+          - "Default entry file path: {{ default_entry_file_path }}"
+          - "Current image entry path: {{ image_entry_file_path }}"
+          - "----------------- End ---------------------"
+      tags:
+        - debug_info
+
+  roles:
+    - ayaqa
+    - ayaqa-configure

@@ -1,0 +1,13 @@
+{
+    "AYAQA_INFRA_BUILD_STAGE": "development",
+    "AYAQA_INFRA_DEBUG": "true",
+
+    "AYAQA_APP_ENV": "development",
+    "AYAQA_APP_DEBUG": "true",
+
+    "AYAQA_SSH_PORT": "22",
+    "AYAQA_PHPFPM_PORT": "9000",
+    "AYAQA_XDEBUG_PORT": "9001",
+    "AYAQA_WEB_PORT": "80",
+    "AYAQA_SECURE_WEB_PORT": "443"
+}

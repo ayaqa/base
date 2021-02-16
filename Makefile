@@ -1,8 +1,6 @@
-# Set default values
-####################
 SHELL              := /bin/bash
 BUILD_TAG          ?= NULL
-BUILD_ENABLE_DEBUG ?= false
+BUILD_WITH_DEBUG   ?= false
 IMAGE_NAME         ?= base
 
 RESET_COLOR=$$(tput sgr0)
@@ -16,10 +14,12 @@ ERROR_STRING=$(RED_COLOR)[ERROR]$(RESET_COLOR)
 WARN_STRING=$(YELLOW_COLOR)[WARNING]$(RESET_COLOR)
 INFO_STRING=$(CYAN_COLOR)[INFO]$(RESET_COLOR)
 
+# Local registry host and port
 LOCAL_REGISTRY="localhost:5001"
 
+# Get Current dir
 ROOT_INFRA_DIR=${CURDIR}
-include vars.mk
+include ${ROOT_INFRA_DIR}/files/vars/make.mk
 
 IMAGE_FORMATTED_FOR_PRINT=$(RED_COLOR)[$(GREEN_COLOR)${IMAGE_NAME}$(RED_COLOR)]$(RESET_COLOR)
 
@@ -38,24 +38,33 @@ PACKER_BUILD_VARS_DYNAMIC_FILE_PATH=${IMAGE_BUILD_ROOT_DIR}/${PACKER_BUILD_VARS_
 
 PACKER_BUILD_PROVISION_SCRIPTS_DIR=${IMAGE_BUILD_ROOT_DIR}/scripts
 
-# Configurations parsed.
-PACKER_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_BUILD_VARS.${IMAGE_NAME}" ${SHARED_VARS_FILE_PATH} ${PACKER_VARS_FILE_PATH} ${CONFIG_JSON_GENERATED_FILE_PATH})
-PROVISION_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_PROVISION_VARS.${IMAGE_NAME}" ${SHARED_VARS_FILE_PATH} ${PROVISION_VARS_FILE_PATH} ${CONFIG_JSON_GENERATED_FILE_PATH})
+# Merge all vars from configs
+# Order: static, packer or privision, config (config.json + local if exists), constants.json
+PACKER_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_BUILD_VARS.${IMAGE_NAME} * .[3]" ${SHARED_VARS_FILE_PATH} ${PACKER_VARS_FILE_PATH} ${CONFIG_JSON_GENERATED_FILE_PATH} ${CONSTANTS_FILE_PATH})
+PROVISION_VARS=$$(jq -s ".[0] * .[1] * .[2].AYAQA_PROVISION_VARS.${IMAGE_NAME} * .[3]" ${SHARED_VARS_FILE_PATH} ${PROVISION_VARS_FILE_PATH} ${CONFIG_JSON_GENERATED_FILE_PATH} ${CONSTANTS_FILE_PATH})
+
+BUILT_IMAGE_NAME=$$(jq -sr ".[0].AYAQA_BUILD_VARS.${IMAGE_NAME}.AYAQA_INFRA_IMAGE_NAME" ${CONFIG_JSON_GENERATED_FILE_PATH})
+BUILT_IMAGE_TAG=$$(jq -sr ".[0].AYAQA_BUILD_VARS.${IMAGE_NAME}.AYAQA_INFRA_IMAGE_TAG" ${CONFIG_JSON_GENERATED_FILE_PATH})
+BUILT_IMAGE_TAG_AS_LATEST=$$(jq -sr ".[0].AYAQA_BUILD_VARS.${IMAGE_NAME}.AYAQA_INFRA_IMAGE_TAG_AS_LATEST" ${CONFIG_JSON_GENERATED_FILE_PATH})
 
 .PHONY: help clear build_local pre_build_local compile_configs compile_dynamic_config validate_packer_build
+
+LOG_FILE_DATE=$(shell date '+%d-%m-%y')
+LOG_FILE_NAME=${IMAGE_NAME}-${LOG_FILE_DATE}.log
+LOG_OUTPUT_PATH=logs/${LOG_FILE_NAME}
 
 # Aliases
 #########
 help: .display_help
 clear: .clear_after_build_local
 validate_local: .validate_packer_build
-build_local: pre_build_local .build_local clear
+build_local: pre_build_local .build_local .tag_local .push_local clear
 pre_build_local: compile_configs
 compile_dynamic_config: .compile_config_file
 compile_configs: .continue_if_image_dir_is_fine compile_dynamic_config .compile_packer_dynamic_env .compile_provision_dynamic_env
 
-# Helpers
-#########
+# Helpers targets
+#################
 .display_help:
 	@echo "";
 	@echo -e "Usage example:\t make [TASK] [VARIABLES]";
@@ -71,6 +80,7 @@ display_config: .compile_config_file
 	@cat ${CONFIG_JSON_GENERATED_FILE_PATH}
 
 .continue_if_image_dir_is_fine:
+	@echo "${INFO_STRING} Check if all files and dirs are fine."
 	@if [[ ! -d "${IMAGE_BUILD_ROOT_DIR}" ]]; then \
 		echo "${ERROR_STRING} ${IMAGE_FORMATTED_FOR_PRINT} image dir was not found."; \
 		exit 1; \
@@ -92,8 +102,20 @@ display_config: .compile_config_file
 		exit 1; \
 	fi;
 
-# Build
-#######
+.continue_if_image_tags_are_set:
+	@echo "${INFO_STRING} Check if built image name and tag are configured."
+	@if [[ "${BUILT_IMAGE_NAME}" == "null" ]]; then \
+		echo "${ERROR_STRING} AYAQA_INFRA_IMAGE_NAME is not set for ${IMAGE_FORMATTED_FOR_PRINT} in ${CONFIG_JSON_GENERATED_FILE_NAME}."; \
+		exit 1; \
+	fi;
+
+	@if [[ "${BUILT_IMAGE_TAG}" == "null" ]]; then \
+		echo "${ERROR_STRING} BUILT_IMAGE_TAG is not set for ${IMAGE_FORMATTED_FOR_PRINT} in ${CONFIG_JSON_GENERATED_FILE_NAME}."; \
+		exit 1; \
+	fi;
+
+# Build targets
+################
 .compile_config_file:
 	@echo "${INFO_STRING} Compile config file using static [${CONFIG_JSON_MAIN_FILE_NAME}] and local [${CONFIG_JSON_LOCAL_FILE_NAME}]."
 	@echo "${WARN_STRING} If local config is found, both will be merged and all defined keys from local will override static ones."
@@ -122,21 +144,39 @@ display_config: .compile_config_file
 			-var-file=${PACKER_BUILD_VARS_DYNAMIC_FILE_PATH} \
 			-var BUILD_DIR="${IMAGE_BUILD_ROOT_DIR}" \
 			-var SHARED_FS_DIR="${SHARED_FS_DIR}" \
-		$$(if [[ "$(BUILD_TAG)" != "NULL" ]]; then echo "-var AYAQA_PROJECT_NAME=${LOCAL_REGISTRY}/$(IMAGE_NAME)"; echo "-var AYAQA_PROJECT_TAG=$(BUILD_TAG)"; fi;) \
-	    $$(if [[ "$(BUILD_ENABLE_DEBUG)" == "true" ]]; then echo "-var AYAQA_PROJECT_DEBUG=\"true\""; fi;) \
-	    "${PACKER_BUILD_MANIFEST_FILE_PATH}" || exit 1;
+	    $$(if [[ "$(BUILD_WITH_DEBUG)" == "true" ]]; then echo "-var AYAQA_INFRA_DEBUG=\"true\""; fi;) \
+	    "${PACKER_BUILD_MANIFEST_FILE_PATH}";
 
 .build_local: validate_packer_build
 	@echo "${INFO_STRING} Packer build for IMAGE_NAME ${IMAGE_FORMATTED_FOR_PRINT} [build local]"
+	@echo "${INFO_STRING} Output for ${IMAGE_FORMATTED_FOR_PRINT} will be saved: ${LOG_OUTPUT_PATH}"
 	@packer build \
 			-var-file=${PACKER_BUILD_VARS_FILE_PATH} \
 			-var-file=${PACKER_BUILD_VARS_DYNAMIC_FILE_PATH} \
 			-var BUILD_DIR="${IMAGE_BUILD_ROOT_DIR}" \
 			-var SHARED_FS_DIR="${SHARED_FS_DIR}" \
-		$$(if [[ "$(BUILD_TAG)" != "NULL" ]]; then echo "-var AYAQA_PROJECT_NAME=${LOCAL_REGISTRY}/$(IMAGE_NAME)"; echo "-var AYAQA_PROJECT_TAG=$(BUILD_TAG)"; fi;) \
-	    $$(if [[ "$(BUILD_ENABLE_DEBUG)" == "true" ]]; then echo "-var AYAQA_PROJECT_DEBUG=\"true\""; fi;) \
+	    $$(if [[ "$(BUILD_WITH_DEBUG)" == "true" ]]; then echo "-var AYAQA_INFRA_DEBUG=\"true\""; fi;) \
 			-timestamp-ui \
-	    	"${PACKER_BUILD_MANIFEST_FILE_PATH}" || exit 1;
+	    	"${PACKER_BUILD_MANIFEST_FILE_PATH}" | tee ${LOG_OUTPUT_PATH} 2>&1;
+
+.tag_local: .continue_if_image_tags_are_set
+	@echo "${WARN_STRING} Local registry is running at ${LOCAL_REGISTRY}"
+	@echo "${INFO_STRING} Tagging image as: ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG}"
+	@docker tag ${BUILT_IMAGE_NAME}:latest ${LOCAL_REGISTRY}/${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG}
+
+	@if [[ "${BUILT_IMAGE_TAG}" != "latest" && "${BUILT_IMAGE_TAG_AS_LATEST}" == "true" ]]; then \
+		echo "${WARN_STRING} Tagging image as ${BUILT_IMAGE_NAME}:latest"; \
+		docker tag ${BUILT_IMAGE_NAME}:latest ${LOCAL_REGISTRY}/${BUILT_IMAGE_NAME}:latest; \
+	fi;
+
+.push_local: .continue_if_image_tags_are_set
+	@echo "${INFO_STRING} Push image ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG} to ${LOCAL_REGISTRY}"
+	@docker push ${LOCAL_REGISTRY}/${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG}
+
+	@if [[ "${BUILT_IMAGE_TAG}" != "latest" && "${BUILT_IMAGE_TAG_AS_LATEST}" == "true" ]]; then \
+		echo "${WARN_STRING} Push image ${BUILT_IMAGE_NAME}:latest to ${LOCAL_REGISTRY}"; \
+		docker push ${LOCAL_REGISTRY}/${BUILT_IMAGE_NAME}:latest; \
+	fi;
 
 .clear_after_build_local:
 	@echo "${INFO_STRING} Clean all dynamic files for ${IMAGE_FORMATTED_FOR_PRINT}."

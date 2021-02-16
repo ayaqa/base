@@ -1,12 +1,15 @@
 #!/bin/bash
 
+set -o nounset
+set -o pipefail
+
 # {{{ Source and define everything base
 CURRENT_DIR=$(dirname "$0")
 BASE_DIR="${CURRENT_DIR}"
 
 # All below are depending on BASE_DIR to be proerly set.
-DOCKER_DIR="${BASE_DIR}/docker"
-SHAREDFS_DIR="${DOCKER_DIR}/sharedfs"
+FILES_DIR="${BASE_DIR}/files"
+SHAREDFS_DIR="${FILES_DIR}/sharedfs"
 LIBS_DIR="${SHAREDFS_DIR}/libs"
 
 CONFIG_FILE_PATH="${BASE_DIR}/config-generated.json"
@@ -27,7 +30,7 @@ function check_if_image_exists() {
     local IMAGE_NAME=$1
     local IMAGE_TAG=$2
     local IMAGE_BUILD_FOLDER=$3
-    local DEFAULT="n"
+    local DEFAULT="y"
 
     docker image inspect "${IMAGE_NAME}:${IMAGE_TAG}" &>/dev/null
     if [ $? != 0 ]; then
@@ -80,10 +83,10 @@ cd "${BASE_DIR}/" && make compile_configs
 ALL_IMAGES=$(cat ${CONFIG_FILE_PATH} | jq -c '.AYAQA_BUILD_VARS | to_entries | .[]')
 for row in $ALL_IMAGES; do
     IMAGE_FOLDER=$(jq -r '.key' <<< ${row})
-    IMAGE_NAME=$(jq -r '.value | .AYAQA_PROJECT_NAME' <<< ${row})
-    IMAGE_TAG=$(jq -r '.value | .AYAQA_PROJECT_TAG' <<< ${row})
+    IMAGE_NAME=$(jq -r '.value | .AYAQA_INFRA_IMAGE_NAME' <<< ${row})
+    IMAGE_TAG=$(jq -r '.value | .AYAQA_INFRA_IMAGE_TAG' <<< ${row})
 
     check_if_image_exists $IMAGE_NAME $IMAGE_TAG $IMAGE_FOLDER
 done
-make clear_after_build_local
+make clear
 cd -

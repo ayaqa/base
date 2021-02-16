@@ -1,0 +1,70 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - "./provision_vars.json"
+    - "./provision_vars_dynamic.json"
+  vars:
+    ansible_python_interpreter: /usr/bin/python
+
+    # geerlingguy/ansible-role-pip vars
+    pip_package: python-pip
+    pip_executable: pip
+
+    # willshersystems/ansible-sshd vars
+    sshd:
+      Port: "{{ AYAQA_SSH_PORT }}"
+      PasswordAuthentication: "no"
+      PubkeyAuthentication: "yes"
+      PermitRootLogin: "without-password"
+      UsePAM: "yes"
+
+    # geerlingguy/ansible-role-supervisor vars
+    supervisor_version: "latest"
+    supervisor_user: "root"
+    supervisor_password: "{{ AYAQA_SUPERVISOR_PASSWORD }}"
+    supervisor_started: false
+    supervisor_enabled: false
+    supervisor_nodaemon: true
+    supervisor_unix_http_server_enable: true
+    supervisor_unix_http_server_socket_path: "{{ AYAQA_INFRA_RUN_FOLDER }}/supervisor.sock"
+    supervisor_config_path: "/etc/supervisor"
+
+    supervisor_programs:
+      - name: 'sshd'
+        command: /usr/sbin/sshd -D
+        state: present
+        configuration: |
+          numprocs=1
+          autostart=true
+          autorestart=true
+          stdout_logfile=/dev/stdout
+          stderr_logfile=/dev/stdout
+          stdout_logfile_maxbytes=0
+          stderr_logfile_maxbytes=0
+
+  tasks:
+    - name: "DEBUG: Dump variables."
+      debug:
+        msg:
+          - "----------------- Vars ---------------------"
+          - "Name: {{ AYAQA_INFRA_IMAGE_NAME }}"
+          - "Tag: {{ AYAQA_INFRA_IMAGE_TAG }}"
+          - "Build Stage: {{ AYAQA_INFRA_BUILD_STAGE }}"
+          - "Build Debug: {{ AYAQA_INFRA_DEBUG }}"
+          - "App Stage: {{ AYAQA_APP_ENV }}"
+          - "App Debug: {{ AYAQA_APP_DEBUG }}"
+          - "----------------- ### ---------------------"
+          - "SSH port: {{ sshd.Port }}"
+          - "----------------- Supervisor ---------------------"
+          - "Version: {{ supervisor_version }}"
+          - "Started: {{ supervisor_started }}"
+          - "Enabled: {{ supervisor_enabled }}"
+          - "Nodaemon: {{ supervisor_nodaemon }}"
+          - "Http Server Enabled: {{ supervisor_unix_http_server_enable }}"
+          - "----------------- End ---------------------"
+      tags: debug_info
+  roles:
+    - role: willshersystems.sshd
+    - role: geerlingguy.pip
+    - role: geerlingguy.supervisor
