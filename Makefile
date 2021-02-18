@@ -16,6 +16,7 @@ INFO_STRING=$(CYAN_COLOR)[INFO]$(RESET_COLOR)
 
 # Local registry host and port
 LOCAL_REGISTRY="localhost:5001"
+REMOTE_REGISTRY="ayaqa"
 
 # Get Current dir
 ROOT_INFRA_DIR=${CURDIR}
@@ -47,7 +48,7 @@ BUILT_IMAGE_NAME=$$(jq -sr ".[0].AYAQA_BUILD_VARS.${IMAGE_NAME}.AYAQA_INFRA_IMAG
 BUILT_IMAGE_TAG=$$(jq -sr ".[0].AYAQA_BUILD_VARS.${IMAGE_NAME}.AYAQA_INFRA_IMAGE_TAG" ${CONFIG_JSON_GENERATED_FILE_PATH})
 BUILT_IMAGE_TAG_AS_LATEST=$$(jq -sr ".[0].AYAQA_BUILD_VARS.${IMAGE_NAME}.AYAQA_INFRA_IMAGE_TAG_AS_LATEST" ${CONFIG_JSON_GENERATED_FILE_PATH})
 
-.PHONY: help clear build_local pre_build_local compile_configs compile_dynamic_config validate_packer_build
+.PHONY: help clear build_local pre_build compile_configs compile_dynamic_config validate_packer_build
 
 LOG_FILE_DATE=$(shell date '+%d-%m-%y')
 LOG_FILE_NAME=${IMAGE_NAME}-${LOG_FILE_DATE}.log
@@ -58,8 +59,9 @@ LOG_OUTPUT_PATH=logs/${LOG_FILE_NAME}
 help: .display_help
 clear: .clear_after_build_local
 validate_local: .validate_packer_build
-build_local: pre_build_local .build_local .tag_local .push_local clear
-pre_build_local: compile_configs
+build_local: pre_build .build_image .tag_local .push_local clear
+build_remote: pre_build .build_image .tag_hub .push_hub clear
+pre_build: compile_configs
 compile_dynamic_config: .compile_config_file
 compile_configs: .continue_if_image_dir_is_fine compile_dynamic_config .compile_packer_dynamic_env .compile_provision_dynamic_env
 
@@ -147,8 +149,8 @@ display_config: .compile_config_file
 	    $$(if [[ "$(BUILD_WITH_DEBUG)" == "true" ]]; then echo "-var AYAQA_INFRA_DEBUG=\"true\""; fi;) \
 	    "${PACKER_BUILD_MANIFEST_FILE_PATH}";
 
-.build_local: validate_packer_build
-	@echo "${INFO_STRING} Packer build for IMAGE_NAME ${IMAGE_FORMATTED_FOR_PRINT} [build local]"
+.build_image: validate_packer_build
+	@echo "${INFO_STRING} Packer build for IMAGE_NAME ${IMAGE_FORMATTED_FOR_PRINT}"
 	@echo "${INFO_STRING} Output for ${IMAGE_FORMATTED_FOR_PRINT} will be saved: ${LOG_OUTPUT_PATH}"
 	@packer build \
 			-var-file=${PACKER_BUILD_VARS_FILE_PATH} \
@@ -169,6 +171,16 @@ display_config: .compile_config_file
 		docker tag ${BUILT_IMAGE_NAME}:latest ${LOCAL_REGISTRY}/${BUILT_IMAGE_NAME}:latest; \
 	fi;
 
+.tag_hub: .continue_if_image_tags_are_set
+	@echo "${WARN_STRING} Image will be tagged for Docker Hub: ${REMOTE_REGISTRY}"
+	@echo "${INFO_STRING} Tagging image as: ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG}"
+	@docker tag ${BUILT_IMAGE_NAME}:latest ${REMOTE_REGISTRY}/${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG}
+
+	@if [[ "${BUILT_IMAGE_TAG}" != "latest" && "${BUILT_IMAGE_TAG_AS_LATEST}" == "true" ]]; then \
+		echo "${WARN_STRING} Tagging image as ${BUILT_IMAGE_NAME}:latest"; \
+		docker tag ${BUILT_IMAGE_NAME}:latest ${REMOTE_REGISTRY}/${BUILT_IMAGE_NAME}:latest; \
+	fi;
+
 .push_local: .continue_if_image_tags_are_set
 	@echo "${INFO_STRING} Push image ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG} to ${LOCAL_REGISTRY}"
 	@docker push ${LOCAL_REGISTRY}/${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG}
@@ -176,6 +188,16 @@ display_config: .compile_config_file
 	@if [[ "${BUILT_IMAGE_TAG}" != "latest" && "${BUILT_IMAGE_TAG_AS_LATEST}" == "true" ]]; then \
 		echo "${WARN_STRING} Push image ${BUILT_IMAGE_NAME}:latest to ${LOCAL_REGISTRY}"; \
 		docker push ${LOCAL_REGISTRY}/${BUILT_IMAGE_NAME}:latest; \
+	fi;
+
+.push_hub: .continue_if_image_tags_are_set
+	@echo "${WARN_STRING} Image will be pushed to Docker Hub: ${REMOTE_REGISTRY}"
+	@echo "${INFO_STRING} Push image ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG} to ${REMOTE_REGISTRY}"
+	@docker push ${REMOTE_REGISTRY}/${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG}
+
+	@if [[ "${BUILT_IMAGE_TAG}" != "latest" && "${BUILT_IMAGE_TAG_AS_LATEST}" == "true" ]]; then \
+		echo "${WARN_STRING} Push image ${BUILT_IMAGE_NAME}:latest to ${REMOTE_REGISTRY}"; \
+		docker push ${REMOTE_REGISTRY}/${BUILT_IMAGE_NAME}:latest; \
 	fi;
 
 .clear_after_build_local:
