@@ -5,7 +5,7 @@ CURRENT_DIR=$(dirname "$0")
 BASE_DIR="${CURRENT_DIR}/../.."
 
 # All below are depending on BASE_DIR to be proerly set.
-FILES_DIR="${BASE_DIR}/docker"
+FILES_DIR="${BASE_DIR}/files"
 SHAREDFS_DIR="${FILES_DIR}/sharedfs"
 LIBS_DIR="${SHAREDFS_DIR}/libs"
 
