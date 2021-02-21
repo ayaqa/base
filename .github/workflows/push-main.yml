@@ -6,10 +6,9 @@ on:
       - main
 
 jobs:
-  build_and_push:
+  prepare:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
     - name: Install packages required to build image properly
       run: |
         set -x
@@ -31,22 +30,34 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
-    - name: Build image - base
-      run: |
-        set -x
-        export TERM=xterm-256color 
 
-        make -s build_remote IMAGE_NAME=base
-        make -s tag_hub IMAGE_NAME=base
-        make -s push_hub IMAGE_NAME=base
-        make -s clear IMAGE_NAME=base
-    - name: Build image - dev
-      run: |
-        set -x
-        export TERM=xterm-256color 
+  build-image-base:
+    runs-on: ubuntu-latest
+    needs: prepare
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build image - base
+        run: |
+          set -x
+          export TERM=xterm-256color 
 
-        make -s build_remote IMAGE_NAME=dev
-        make -s tag_hub IMAGE_NAME=dev
-        make -s push_hub IMAGE_NAME=dev
-        make -s clear IMAGE_NAME=dev
+          make -s build_remote IMAGE_NAME=base
+          make -s tag_hub IMAGE_NAME=base
+          make -s push_hub IMAGE_NAME=base
+          make -s clear IMAGE_NAME=base
+
+  build-image-dev:
+    runs-on: ubuntu-latest
+    needs: [prepare, build-image-base]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build image - dev
+        run: |
+          set -x
+          export TERM=xterm-256color 
+
+          make -s build_remote IMAGE_NAME=dev
+          make -s tag_hub IMAGE_NAME=dev
+          make -s push_hub IMAGE_NAME=dev
+          make -s clear IMAGE_NAME=dev
       
