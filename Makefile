@@ -48,7 +48,7 @@ BUILT_IMAGE_NAME=$$(jq -sr ".[0].AYAQA_BUILD_VARS.${IMAGE_NAME}.AYAQA_INFRA_IMAG
 BUILT_IMAGE_TAG=$$(jq -sr ".[0].AYAQA_BUILD_VARS.${IMAGE_NAME}.AYAQA_INFRA_IMAGE_TAG" ${CONFIG_JSON_GENERATED_FILE_PATH})
 BUILT_IMAGE_TAG_AS_LATEST=$$(jq -sr ".[0].AYAQA_BUILD_VARS.${IMAGE_NAME}.AYAQA_INFRA_IMAGE_TAG_AS_LATEST" ${CONFIG_JSON_GENERATED_FILE_PATH})
 
-.PHONY: help clear build_local pre_build compile_configs compile_dynamic_config validate_packer_build
+.PHONY: help clear full_locale build_local tag_local push_local pre_build compile_configs compile_dynamic_config validate_packer_build build_remote tag_hub push_hub
 
 LOG_FILE_DATE=$(shell date '+%d-%m-%y')
 LOG_FILE_NAME=${IMAGE_NAME}-${LOG_FILE_DATE}.log
@@ -59,9 +59,17 @@ LOG_OUTPUT_PATH=logs/${LOG_FILE_NAME}
 help: .display_help
 clear: .clear_after_build_local
 validate_local: .validate_packer_build
-build_local: pre_build .build_image .tag_local .push_local clear
-build_remote: pre_build .build_image .tag_hub .push_hub clear
 pre_build: compile_configs
+
+full_locale: build_local tag_local push_local
+build_local: pre_build .build_image clear
+tag_local: .tag_local
+push_local: .push_local
+
+build_remote: build_local
+tag_hub: .tag_hub
+push_hub: .push_hub
+
 compile_dynamic_config: .compile_config_file
 compile_configs: .continue_if_image_dir_is_fine compile_dynamic_config .compile_packer_dynamic_env .compile_provision_dynamic_env
 
@@ -74,7 +82,8 @@ compile_configs: .continue_if_image_dir_is_fine compile_dynamic_config .compile_
 	@echo -e "\t\t make compile_dynamic_config \t\t\t- compile ${CONFIG_JSON_GENERATED_FILE_NAME} using static and local if exists.";
 	@echo -e "\t\t make compile_configs \t\t\t\t- compile configs and build dynamic envs.";
 	@echo -e "\t\t make validate_local IMAGE_NAME=<image folder> \t- validate packer build file.";
-	@echo -e "\t\t make build_local IMAGE_NAME=<image folder> \t- build image using packer.";
+	@echo -e "\t\t make build_local IMAGE_NAME=<image folder> \t- build image locally using packer.";
+	@echo -e "\t\t make build_remote IMAGE_NAME=<image folder> \t- build image remote using packer.";
 	@echo -e "\t\t make clear \t\t\t\t\t- clear all generated files.";
 
 display_config: .compile_config_file
