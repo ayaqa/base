@@ -62,7 +62,7 @@ validate_local: .validate_packer_build
 pre_build: compile_configs
 
 full_locale: build_local tag_local push_local
-build_local: pre_build .build_image clear
+build_local: pre_build .build_image
 tag_local: .tag_local
 push_local: .push_local
 

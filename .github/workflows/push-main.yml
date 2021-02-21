@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build_and_push:
@@ -34,16 +31,22 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
-    - name: Build image base
+    - name: Build image - base
       run: |
         set -x
+        export TERM=xterm-256color 
+
         make -s build_remote IMAGE_NAME=base
         make -s tag_hub IMAGE_NAME=base
         make -s push_hub IMAGE_NAME=base
-    - name: Build image dev
+        make -s clear IMAGE_NAME=base
+    - name: Build image - dev
       run: |
         set -x
+        export TERM=xterm-256color 
+
         make -s build_remote IMAGE_NAME=dev
         make -s tag_hub IMAGE_NAME=dev
         make -s push_hub IMAGE_NAME=dev
+        make -s clear IMAGE_NAME=dev
       
