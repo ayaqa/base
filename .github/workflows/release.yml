@@ -14,14 +14,14 @@ jobs:
     - name: Install dependencies
       run: |
         set -x
-        apt-get update
-        apt-get install curl
-        apt-get install apt-transport-https
-        apt-get install ca-certificates
-        apt-get install software-properties-common
-        apt-get install unzip
-        apt-get install make
-        apt-get install jq
+        sudo apt-get update
+        sudo apt-get install curl
+        sudo apt-get install apt-transport-https
+        sudo apt-get install ca-certificates
+        sudo apt-get install software-properties-common
+        sudo apt-get install unzip
+        sudo apt-get install make
+        sudo apt-get install jq
       shell: bash
     - name: Use latest Packer
       uses: hashicorp-contrib/setup-packer@v1
