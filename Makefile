@@ -173,21 +173,21 @@ display_config: .compile_config_file
 .tag_local: .continue_if_image_tags_are_set
 	@echo "${WARN_STRING} Local registry is running at ${LOCAL_REGISTRY}"
 	@echo "${INFO_STRING} Tagging image as: ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG}"
-	@docker tag ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_NAME} ${LOCAL_REGISTRY}/${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG}
+	@docker tag ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG} ${LOCAL_REGISTRY}/${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG}
 
 	@if [[ "${BUILT_IMAGE_TAG}" != "latest" && "${BUILT_IMAGE_TAG_AS_LATEST}" == "true" ]]; then \
 		echo "${WARN_STRING} Tagging image as ${BUILT_IMAGE_NAME}:latest"; \
-		docker tag ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_NAME} ${LOCAL_REGISTRY}/${BUILT_IMAGE_NAME}:latest; \
+		docker tag ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG} ${LOCAL_REGISTRY}/${BUILT_IMAGE_NAME}:latest; \
 	fi;
 
 .tag_hub: .continue_if_image_tags_are_set
 	@echo "${WARN_STRING} Image will be tagged for Docker Hub: ${REMOTE_REGISTRY}"
 	@echo "${INFO_STRING} Tagging image as: ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG}"
-	@docker tag ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_NAME} ${REMOTE_REGISTRY}/${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG}
+	@docker tag ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG} ${REMOTE_REGISTRY}/${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG}
 
 	@if [[ "${BUILT_IMAGE_TAG}" != "latest" && "${BUILT_IMAGE_TAG_AS_LATEST}" == "true" ]]; then \
 		echo "${WARN_STRING} Tagging image as ${BUILT_IMAGE_NAME}:latest"; \
-		docker tag ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_NAME} ${REMOTE_REGISTRY}/${BUILT_IMAGE_NAME}:latest; \
+		docker tag ${BUILT_IMAGE_NAME}:${BUILT_IMAGE_TAG} ${REMOTE_REGISTRY}/${BUILT_IMAGE_NAME}:latest; \
 	fi;
 
 .push_local: .continue_if_image_tags_are_set
