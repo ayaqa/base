@@ -1,0 +1,16 @@
+{
+    "AYAQA_BUILD_VARS": {
+        "base": {},
+        "dev": {
+            "AYAQA_INFRA_BASE_IMAGE_ORG": "ayaqa/"
+        },
+        "prod": {
+            "AYAQA_INFRA_BASE_IMAGE_ORG": "ayaqa/"
+        }
+    },
+    "AYAQA_PROVISION_VARS": {
+        "base": {},
+        "dev": {},
+        "prod": {}
+    }
+}

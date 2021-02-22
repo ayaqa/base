@@ -10,11 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          path: infra
       - name: Install required linux dependencies
         run: |
-          bash ./infra/.github/files/scripts/install_ci.sh
+          bash ./.github/files/scripts/install_ci.sh
         shell: bash
       - name: "Setup packer: 1.6.5"
         uses: hashicorp-contrib/setup-packer@v1
@@ -33,7 +31,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Setup before start build
         run: |
-          bash ./.github/files/scripts/setup_ci.sh
+          bash ./.github/files/scripts/setup_ci.sh "config-push-main.json"
         shell: bash
       - name: "Build image: base"
         run: |
@@ -50,14 +48,14 @@ jobs:
     needs: [prepare, build-image-base]
     steps:
       - uses: actions/checkout@v2
-      - name: Login to Docker Hub
+      - name: "Login to Docker Hub"
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: Setup before start build
+      - name: "Setup before start build"
         run: |
-          bash ./.github/files/scripts/setup_ci.sh
+          bash ./.github/files/scripts/setup_ci.sh "config-push-main.json"
         shell: bash
       - name: "Build image: dev"
         run: |
