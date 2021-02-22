@@ -11,7 +11,9 @@ jobs:
     steps:
       - name: Install required linux dependencies
         run: |
-          bash .github/files/scripts/install_ci.sh
+          ls -la /
+          ls -la ./
+          bash ~/.github/files/scripts/install_ci.sh
         shell: bash
       - name: "Setup packer: 1.6.5"
         uses: hashicorp-contrib/setup-packer@v1
@@ -30,7 +32,6 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Setup before start build
         run: |
-          ls -la /
           bash ~/.github/files/scripts/setup_ci.sh
         shell: bash
       - name: "Build image: base"
