@@ -30,7 +30,8 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Setup before start build
         run: |
-          bash .github/files/scripts/setup_ci.sh
+          ls -la /
+          bash ~/.github/files/scripts/setup_ci.sh
         shell: bash
       - name: "Build image: base"
         run: |
