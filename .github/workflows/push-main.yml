@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        path: infra
+        with:
+          path: infra
       - name: Install required linux dependencies
         run: |
           ls -la /
