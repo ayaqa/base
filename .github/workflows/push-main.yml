@@ -15,6 +15,8 @@ jobs:
       - name: Install required linux dependencies
         run: |
           ls -la /
+          ls -la ~/
+          ls -la ./
           bash /infra/.github/files/scripts/install_ci.sh
         shell: bash
       - name: "Setup packer: 1.6.5"
