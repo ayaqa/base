@@ -1,0 +1,38 @@
+{
+    "AYAQA_BUILD_VARS": {
+        "base": {
+            "BUILT_IMAGE_TAG_AS_LATEST": "true",
+            "AYAQA_INFRA_BASE_IMAGE_ORG": "",
+            "AYAQA_INFRA_IMAGE_NAME": "ayaqa_base",
+            "AYAQA_INFRA_IMAGE_TAG": "0.0.1",
+
+            "AYAQA_APP_VERSION": "0.0.1"
+        },
+        "dev": {
+            "BUILT_IMAGE_TAG_AS_LATEST": "true",
+            "AYAQA_INFRA_BASE_IMAGE_ORG": "ayaqa/",
+            "AYAQA_INFRA_IMAGE_NAME": "ayaqa_dev",
+            "AYAQA_INFRA_IMAGE_TAG": "0.0.1",
+
+            "AYAQA_APP_VERSION": "0.0.1"
+        },
+        "prod": {
+            "BUILT_IMAGE_TAG_AS_LATEST": "true",
+            "AYAQA_INFRA_BASE_IMAGE_ORG": "ayaqa/",
+            "AYAQA_INFRA_IMAGE_NAME": "ayaqa",
+            "AYAQA_INFRA_IMAGE_TAG": "0.0.1",
+
+            "AYAQA_APP_VERSION": "0.0.1",
+            
+            "AYAQA_APP_ENV": "prod",
+            "AYAQA_APP_DEBUG": "false",
+            "AYAQA_INFRA_BUILD_STAGE": "prod",
+            "AYAQA_INFRA_DEBUG": "false"
+        }
+    },
+    "AYAQA_PROVISION_VARS": {
+        "base": {},
+        "dev": {},
+        "prod": {}
+    }
+}

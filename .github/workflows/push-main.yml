@@ -1,4 +1,4 @@
-name: AyaQA Release workflow
+name: ayaQA Push
 
 on:
   push:
@@ -9,34 +9,30 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     steps:
-    - name: Install packages required to build image properly
-      run: |
-        set -x
-        sudo apt-get update
-        sudo apt-get install curl
-        sudo apt-get install apt-transport-https
-        sudo apt-get install ca-certificates
-        sudo apt-get install software-properties-common
-        sudo apt-get install unzip
-        sudo apt-get install make
-        sudo apt-get install jq
-      shell: bash
-    - name: Use packer 
-      uses: hashicorp-contrib/setup-packer@v1
-      with:
-        packer-version: 1.6.5
+      - name: Install required linux dependencies
+        run: |
+          bash .github/files/scripts/install_ci.sh
+        shell: bash
+      - name: "Setup packer: 1.6.5"
+        uses: hashicorp-contrib/setup-packer@v1
+        with:
+          packer-version: 1.6.5
 
   build-image-base:
     runs-on: ubuntu-latest
     needs: prepare
     steps:
       - uses: actions/checkout@v2
-      - name: Login to Docker Hub
+      - name: "Login to Docker Hub"
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: Build image - base
+      - name: Setup before start build
+        run: |
+          bash .github/files/scripts/setup_ci.sh
+        shell: bash
+      - name: "Build image: base"
         run: |
           set -x
           export TERM=xterm-256color 
@@ -56,7 +52,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: Build image - dev
+      - name: Setup before start build
+        run: |
+          bash .github/files/scripts/setup_ci.sh
+        shell: bash
+      - name: "Build image: dev"
         run: |
           set -x
           export TERM=xterm-256color 

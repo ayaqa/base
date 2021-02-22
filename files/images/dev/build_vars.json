@@ -1,4 +1,5 @@
 {
+    "AYAQA_INFRA_BASE_IMAGE_ORG": "",
     "AYAQA_INFRA_BASE_IMAGE": "ayaqa_base",
     "AYAQA_INFRA_BASE_IMAGE_TAG": "latest",
 

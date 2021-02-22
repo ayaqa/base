@@ -2,7 +2,7 @@
     "builders": [
         {
             "type": "docker",
-            "image": "{{ user `AYAQA_INFRA_BASE_IMAGE` }}:{{ user `AYAQA_INFRA_BASE_IMAGE_TAG` }}",
+            "image": "{{ user `AYAQA_INFRA_BASE_IMAGE_ORG` }}{{ user `AYAQA_INFRA_BASE_IMAGE` }}:{{ user `AYAQA_INFRA_BASE_IMAGE_TAG` }}",
             "commit": true,
             "changes": [
                 "USER root",

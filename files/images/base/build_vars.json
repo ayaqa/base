@@ -1,6 +1,8 @@
 {
+    "AYAQA_INFRA_BASE_IMAGE_ORG": "",
     "AYAQA_INFRA_BASE_IMAGE": "debian",
     "AYAQA_INFRA_BASE_IMAGE_TAG": "buster-slim",
+    
     "AYAQA_INFRA_IMAGE_NAME": "ayaqa_base",
     "AYAQA_INFRA_IMAGE_TAG": "latest",
     "AYAQA_INFRA_IMAGE_DIR_NAME": "base",
