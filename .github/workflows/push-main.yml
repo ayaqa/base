@@ -14,10 +14,6 @@ jobs:
           path: infra
       - name: Install required linux dependencies
         run: |
-          ls -la /
-          ls -la ~/
-          pwd
-          ls -la ./
           bash ./infra/.github/files/scripts/install_ci.sh
         shell: bash
       - name: "Setup packer: 1.6.5"
@@ -37,7 +33,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Setup before start build
         run: |
-          bash ~/.github/files/scripts/setup_ci.sh
+          bash ./.github/files/scripts/setup_ci.sh
         shell: bash
       - name: "Build image: base"
         run: |
@@ -61,7 +57,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Setup before start build
         run: |
-          bash .github/files/scripts/setup_ci.sh
+          bash ./.github/files/scripts/setup_ci.sh
         shell: bash
       - name: "Build image: dev"
         run: |
