@@ -7,7 +7,7 @@ on:
 
 jobs:
   prepare:
-    name: "Prepare for build"
+    name: "Prepare"
     runs-on: ubuntu-latest
     outputs:
       base: ${{ steps.filter.outputs.base }}
@@ -90,7 +90,7 @@ jobs:
           make -s clear IMAGE_NAME=dev
       
   only-build-image-dev:
-    name: "only_build_ayaqa_dev"
+    name: "only:build_ayaqa_dev"
     needs: [prepare]
     if: ${{ needs.prepare.outputs.base == 'false' && needs.prepare.outputs.dev == 'true' }}
     runs-on: ubuntu-latest
