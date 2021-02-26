@@ -37,8 +37,8 @@ jobs:
 
   build-image-base:
     name: "ayaqa_base"
-    needs: [changes, prepare]
-    if: ${{ needs.changes.outputs.base == 'true' }}
+    needs: [prepare]
+    if: ${{ needs.prepare.outputs.base == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout repo"
@@ -64,8 +64,8 @@ jobs:
 
   build-image-dev:
     name: "ayaqa_dev"
-    needs: [changes, prepare]
-    if: ${{ needs.changes.outputs.dev == 'true' }}
+    needs: [prepare]
+    if: ${{ needs.prepare.outputs.dev == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout repo"
