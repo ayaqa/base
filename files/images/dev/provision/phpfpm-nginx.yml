@@ -41,7 +41,7 @@
     ]
 
     list_of_php_packages: [
-        "php8.0-fpm"
+        "php8.1-fpm"
     ]
 
   tasks:
