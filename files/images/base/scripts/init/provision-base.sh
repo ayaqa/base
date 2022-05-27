@@ -10,7 +10,7 @@ export TERM=xterm
 . ${AYAQA_INFRA_LIBS_DIR}/liblog.sh
 . ${AYAQA_INFRA_LIBS_DIR}/libutil.sh
 
-# Prevent warning for localhost
+# Prevent warning for localhost 
 info "Fix localhost warning for ansible."
 sed -i "s;#inventory      = /etc/ansible/hosts;inventory = /etc/ansible/hosts;g" /etc/ansible/ansible.cfg
 echo 'localhost' > /etc/ansible/hosts
