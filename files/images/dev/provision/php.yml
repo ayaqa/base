@@ -10,17 +10,17 @@
     php_cli_config_dir: "{{ AYAQA_PHP_CLI_CONFIG_DIR }}"
     php_xdebug_module_config_file: "{{ AYAQA_PHP_MODULE_CONFIG_DIR }}/xdebug.ini"
     list_of_php_packages: [
-      "php8.0-cli",
-      "php8.0-common",
-      "php8.0-mbstring",
-      "php8.0-bcmath",
-      "php8.0-gd",
-      "php8.0-xdebug",
-      "php8.0-curl",
-      "php8.0-mysql",
-      "php8.0-imap",
-      "php8.0-dom",
-      "php8.0-intl"
+      "php8.1-cli",
+      "php8.1-common",
+      "php8.1-mbstring",
+      "php8.1-bcmath",
+      "php8.1-gd",
+      "php8.1-xdebug",
+      "php8.1-curl",
+      "php8.1-mysql",
+      "php8.1-imap",
+      "php8.1-dom",
+      "php8.1-intl"
     ]
 
   tasks:

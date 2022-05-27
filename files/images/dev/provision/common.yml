@@ -8,7 +8,7 @@
     ansible_python_interpreter: /usr/bin/python
     list_of_packages: [
       "sqlite3",
-      "php8.0-sqlite3"
+      "php8.1-sqlite3"
     ]
 
   tasks:

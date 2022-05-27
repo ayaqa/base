@@ -10,8 +10,9 @@
     phpfpm_run_dir: "{{ AYAQA_INFRA_RUN_FOLDER }}/php"
     php_fpm_pid_file_path: "{{ phpfpm_run_dir }}/php-fpm.pid"
     php_fpm_config_file_path: "{{ AYAQA_PHP_FPM_CONFIG_DIR }}/php-fpm.conf"
+    app_dir: "{{ AYAQA_APP_ROOT_DIR }}"
     supervisor_programs:
-      - name: 'phpfpm'
+      - name: "phpfpm"
         command: /usr/sbin/php-fpm -F --pid {{ php_fpm_pid_file_path }} -y {{ php_fpm_config_file_path }}
         state: present
         configuration: |
@@ -23,12 +24,25 @@
           stderr_logfile=/dev/stdout
           stdout_logfile_maxbytes=0
           stderr_logfile_maxbytes=0
-      - name: 'nginx'
+      - name: "nginx"
         command: /usr/sbin/nginx -g "daemon off;"
         state: present
         configuration: |
           priority=10
           numprocs=1
+          autostart=true
+          autorestart=true
+          stdout_logfile=/dev/stdout
+          stderr_logfile=/dev/stdout
+          stdout_logfile_maxbytes=0
+          stderr_logfile_maxbytes=0
+      - name: "queue"
+        command: /usr/bin/php {{app_dir}}/artisan queue:work --max-jobs=10
+        state: present
+        configuration: |
+          priority=10
+          numprocs=2
+          process_name=jobqueue-%(process_num)02d
           autostart=true
           autorestart=true
           stdout_logfile=/dev/stdout
